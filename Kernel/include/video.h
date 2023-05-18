@@ -53,3 +53,9 @@ struct vbe_mode_info_structure
 typedef struct vbe_mode_info_structure *VBEInfoPtr;
 
 void putpixel(int x, int y, int color);
+void fillrect(int x, int y, int color, int w, int h);
+void clearScreen();
+void draw_string( int x, int y, char* input, int len,int color, int backgroundColor);
+void draw_char(int x, int y, char letter, int color,int backgroundColor);
+void set_default_fontSize(int size);
+int get_default_fontSize();
