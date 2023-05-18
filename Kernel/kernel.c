@@ -12,6 +12,7 @@
 #define YELLOW 0xFFFF00
 #define  ORANGE 0xFFA500
 
+
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -51,8 +52,12 @@ void * initializeKernelBinary()
 	clearBSS(&bss, &endOfKernel - &bss);
 	return getStackBase();
 }
+//uint8_t r = 0;
+//uint8_t g = 0;
+//uint8_t b = 255;
 int main()
 {
 	ncPrint("[Kernel Main]");
+	// printPixelsInFullScreen(r, g, b);
 	return 0;
 }
