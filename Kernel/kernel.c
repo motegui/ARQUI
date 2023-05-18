@@ -64,7 +64,7 @@ int main()
 {
 	ncPrint("[Kernel Main]");
 	// printPixelsInFullScreen(r, g, b);
-	 set_default_fontSize(16); // Establece el tamaño de letra predeterminado a 16
+	 set_default_fontSize(8); // Establece el tamaño de letra predeterminado a 16
 
     char text[] = "Hello, World!";
     int x = 100;
