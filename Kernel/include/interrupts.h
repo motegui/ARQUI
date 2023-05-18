@@ -1,6 +1,8 @@
+
 #ifndef INTERRUPS_H_
 #define INTERRUPS_H_
-
+#include <idtLoader.h>
+#include<stdint.h>
 void _sysCallHandler(int mode, int fd, char * buff, int bytes);
 void _irq00Handler(void);
 void _irq01Handler(void);
