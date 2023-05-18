@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nombre del contenedor Docker
-container_name="T"
+container_name=""
 
 # Iniciar el contenedor Docker
 docker start $container_name
