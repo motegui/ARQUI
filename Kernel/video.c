@@ -1,48 +1,49 @@
 #include <video.h>
-#include <lib.h>
-#include <font.h>
+#define CHAR_WIDTH 8
+#define CHAR_HEIGHT 16
+
+struct vbe_mode_info_structure
+{
+	uint16_t attributes;  // deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
+	uint8_t window_a;	  // deprecated
+	uint8_t window_b;	  // deprecated
+	uint16_t granularity; // deprecated; used while calculating bank numbers
+	uint16_t window_size;
+	uint16_t segment_a;
+	uint16_t segment_b;
+	uint32_t win_func_ptr; // deprecated; used to switch banks from protected mode without returning to real mode
+	uint16_t pitch;		   // number of bytes per horizontal line
+	uint16_t width;		   // width in pixels
+	uint16_t height;	   // height in pixels
+	uint8_t w_char;		   // unused...
+	uint8_t y_char;		   // ...
+	uint8_t planes;
+	uint8_t bpp;   // bits per pixel in this mode
+	uint8_t banks; // deprecated; total number of banks in this mode
+	uint8_t memory_model;
+	uint8_t bank_size; // deprecated; size of a bank, almost always 64 KB but may be 16 KB...
+	uint8_t image_pages;
+	uint8_t reserved0;
+
+	uint8_t red_mask;
+	uint8_t red_position;
+	uint8_t green_mask;
+	uint8_t green_position;
+	uint8_t blue_mask;
+	uint8_t blue_position;
+	uint8_t reserved_mask;
+	uint8_t reserved_position;
+	uint8_t direct_color_attributes;
+
+	uint32_t framebuffer; // physical address of the linear frame buffer; write here to draw to the screen
+	uint32_t off_screen_mem_off;
+	uint16_t off_screen_mem_size; // size of memory in the framebuffer but not being displayed on the screen
+	uint8_t reserved1[206];
+} __attribute__((packed));
+
+typedef struct vbe_mode_info_structure *VBEInfoPtr;
+
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr)0x0000000000005C00;
-#define SCREEN_W screenInformation->width
-#define SCREEN_H screenInformation->height
-struct vbe_mode_info_structure *screenInformation = (void *)0x5C00; // Information loaded in function sysvar in Bootloader
-static int DEFAULT_LETTER_SIZE = 1;
-unsigned char getRed(int color)
-{
-	return (color >> 16) & 255;
-}
-
-unsigned char getBlue(int color)
-{
-	return color & 255;
-}
-
-unsigned char getGreen(int color)
-{
-	return (color >> 8) & 255;
-}
-
-int getPosition(int x, int y)
-{
-	return x * (screenInformation->bpp) / 8 + y * (screenInformation->pitch);
-}
-
-int getXPos(int x)
-{
-	if (x < SCREEN_W)
-	{
-		return x;
-	}
-	return SCREEN_W;
-}
-
-int getYPos(int y)
-{
-	if (y < SCREEN_H)
-	{
-		return y;
-	}
-	return SCREEN_H;
-}
 
 void putPixel(uint32_t hexColor, uint32_t x, uint32_t y)
 {
@@ -54,148 +55,45 @@ void putPixel(uint32_t hexColor, uint32_t x, uint32_t y)
 	screen[offset + 2] = (hexColor >> 16) & 0xFF;
 }
 
-// esta es una funcion para imprimir pixeles en toda la pantalla
-// void printPixelsInFullScreen(uint8_t r, uint8_t g, uint8_t b) {
-//   // Get the framebuffer address.
-//   uint8_t *videoPtr = VBE_mode_info->framebuffer;
-
-//   // Loop over all pixels in the screen.
-//   for (int x = 0; x < VBE_mode_info->width; x++) {
-//     for (int y = 0; y < VBE_mode_info->height; y++) {
-//       // Set the pixel at (x, y) to the specified color.
-//       putPixel(r, g, b, x, y);
-//     }
-//   }
+// void putPixel(uint8_t r, uint8_t g, uint8_t b, uint32_t x, uint32_t y) {
+// 	uint8_t * videoPtr = VBE_mode_info->framebuffer;
+// 	int offset = y * VBE_mode_info->pitch + x * (VBE_mode_info->bpp / 8);
+// 	videoPtr[offset] = b;
+// 	videoPtr[offset+1] = g;
+// 	videoPtr[offset+2] = r;
 // }
 
-void fillrect(int x, int y, int color, int w, int h)
+void putLetter(int caracter, uint32_t x, uint32_t y, int color)
 {
-
-	if (x > SCREEN_W || y > SCREEN_H)
-		return;
-	int i, j;
-	if (w + x > SCREEN_W)
-		w = SCREEN_W - x;
-	if (h + y > SCREEN_H)
-		h = SCREEN_H - y;
-
-	uint8_t *aux = (uint8_t *)((uint64_t)screenInformation->framebuffer + getPosition(x, y));
-	int blue = getBlue(color);
-	int red = getRed(color);
-	int green = getGreen(color);
-
-	for (i = 0; i < w; i++)
+	unsigned char *bitMap = charBitmap(caracter);
+	for (int j = 0; j < CHAR_HEIGHT; j++)
 	{
-		for (j = 0; j < h; j++)
+		for (int i = 0; i < CHAR_WIDTH; i++)
 		{
-			aux = (uint8_t *)((uint64_t)screenInformation->framebuffer + getPosition(x + i, y + j));
-			*(aux) = blue;		// BLUE
-			*(aux + 1) = green; // GREEN
-			*(aux + 2) = red;	// RED
+			uint8_t bit = ((bitMap[j]) >> i) & 0x01;
+			if (bit == 1)
+			{
+				// Llamar a putPixel cuando el bit es 1
+				putPixel(color, x + 7 - i, j + y); // Ejemplo: Establecer el píxel en rojo en la fila 0
+			}
 		}
 	}
 }
-
-void clearScreen()
+void putArray(char *array, uint32_t x, uint32_t y, int color)
 {
-	fillrect(0, 0, BLACK, SCREEN_W, SCREEN_H);
-}
-/*
-primero se chequea que los caracteres se ajusten precisamente a los limites de la pantalla.
-Comparo la pos actual (xInter) mas el ancho de su caracter (letterWidth) con el ancho de la pantalla
-menos el ancho de un caracter (SCREEN_W - letterWidth). Con esto me aseguro de que voy a seguir
-teniendo espacio para otra letra en la misma linea .
-Si la pos excede este limite, aumento la pos vertical yInter y reinicio xInter(la horizontal)
-*/
-
-void draw_string(int x, int y, char *input, int len, int color, int backgroundColor)
-{
-	int xInter = x;
-	int yInter = y;
-
-	for (int i = 0; i < len; i++)
+	int length = sizeof(array) / sizeof(array[0]);
+	int i = 0;
+	int aux_y = y;
+	int aux_x = x;
+	while (i < length)
 	{
-		char letter = input[i];
-		int letterWidth = DEFAULT_LETTER_SIZE * CHAR_WIDTH;
-
-		// Verifica si la posición actual excede el ancho de la pantalla menos el ancho de un carácter
-		if (xInter + letterWidth > SCREEN_W - letterWidth)
+		if (aux_x + CHAR_HEIGHT > VBE_mode_info->width)
 		{
-			// Si excede, pasa a la siguiente línea
-			yInter += CHAR_HEIGHT * DEFAULT_LETTER_SIZE;
-			xInter = x;
+			aux_x = 0;
+			aux_y = aux_y + CHAR_HEIGHT + 1;
 		}
-
-		draw_char(xInter, yInter, letter, color, backgroundColor);
-		xInter += letterWidth;
+		putLetter(array[i], aux_x, aux_y, color);
+		i++;
+		aux_x = aux_x + CHAR_WIDTH + 1;
 	}
 }
-
-/*En draw_char se utiliza una máscara de bits (bitMask) para comprobar cada bit individual en la fila del
-bitmap. Se realiza una operación AND entre la máscara de bits y la fila del bitmap (bitmapRow & bitMask)
- para determinar si el bit está presente o no. luego con esta data vemos q color le ponemos al relleno
-*/
-// void draw_char(int x, int y, char letter, int color, int backgroundColor) {
-//     int aux_x = x;
-//     int aux_y = y;
-
-//     unsigned char* toDraw = charBitmap(letter);
-
-//     for (int i = 0; i < CHAR_HEIGHT; i++) {
-//         unsigned char bitmapRow = *(toDraw + i);
-
-//         for (int j = 0; j < CHAR_WIDTH; j++) {
-//             unsigned char bitMask = 0x80 >> j;  // Máscara de bits para el bit actual
-
-//             // Comprueba si el bit está presente en la fila del bitmap
-//             if (bitmapRow & bitMask)
-//                 fillrect(aux_x, aux_y, color, DEFAULT_LETTER_SIZE, DEFAULT_LETTER_SIZE);
-//             else
-//                 fillrect(aux_x, aux_y, backgroundColor, DEFAULT_LETTER_SIZE, DEFAULT_LETTER_SIZE);
-
-//             aux_x += DEFAULT_LETTER_SIZE;
-//         }
-
-//         aux_x = x;
-//         aux_y += DEFAULT_LETTER_SIZE;
-//     }
-// }
-
-// void set_default_fontSize(int size) {
-//     DEFAULT_LETTER_SIZE = size;
-// }
-
-// int get_default_fontSize() {
-//     return DEFAULT_LETTER_SIZE;
-// }
-
-// void putChar(int x, int y, char caracter, int color, int backgroundColor)
-// {
-//     unsigned char *bitMap = charBitmap(caracter);
-//     for (int j = 0; j < CHAR_HEIGHT; j++)
-//     {
-//         for (int i = 0; i < CHAR_WIDTH; i++)
-//         {
-//             uint8_t bit = ((bitMap[j]) >> i) & 0x01;
-//             if (bit == 1)
-//             {
-//                 // Llamar a putPixel cuando el bit es 1
-//                 putPixel(color, x + 7 - i, j + y); // Ejemplo: Establecer el píxel en rojo en la fila 0
-//             }
-// 			else{
-// 				putPixel(backgroundColor, x + 7 - i, j + y);
-// 			}
-//         }
-//     }
-// }
-// void putArray(char *array, uint32_t x, uint32_t y,  int color, int backgroundColor){
-//     int length = sizeof(array) / sizeof(array[0]);
-//     int i = 0;
-// 	int aux_x=x;
-//     while (i < length)
-//     {
-// 		if(aux_x+CHAR_WIDTH>SCREEN_W){}
-//         putChar(array[i], aux_x, y, color, backgroundColor);
-//         i++;
-//     }
-// }
