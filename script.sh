@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nombre del contenedor Docker
-container_name="tpArqui"
+container_name="TPE"
 
 # Iniciar el contenedor Docker
 docker start $container_name

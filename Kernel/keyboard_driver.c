@@ -40,8 +40,7 @@ void keyHandler()
         if (front == BUFF_SIZE)
             front = 0;
         buff[rear++] = keyBoardTable[tecla];
+        putLetterNext(keyBoardTable[tecla], WHITE);
         cantElems++;
     }
-
-
 }

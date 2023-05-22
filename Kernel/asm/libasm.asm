@@ -1,6 +1,10 @@
 GLOBAL cpuVendor
 GLOBAL kbFlag
 
+GLOBAL getHours
+GLOBAL getMinutes
+GLOBAL getSeconds
+
 section .text
 
 cpuVendor:
@@ -40,6 +44,33 @@ loop:
     je loop
     in al,0x60
 	mov rsp, rbp
+    pop rbp
+    ret
+getSeconds:
+    push rbp
+    mov rbp,rsp
+    mov rax, 0
+    out 70h, al
+    in al, 71h
+    mov rsp, rbp
+    pop rbp
+    ret
+getMinutes:
+    push rbp
+    mov rbp,rsp
+    mov rax, 02
+    out 70h, al
+    in al, 71h
+    mov rsp, rbp
+    pop rbp
+    ret
+getHours:
+    push rbp
+    mov rbp, rsp
+    mov rax, 04
+    out 70h, al
+    in al, 71h
+    mov rsp, rbp
     pop rbp
     ret
 
