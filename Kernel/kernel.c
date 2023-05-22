@@ -13,7 +13,7 @@
 #define YELLOW 0xFFFF00
 #define ORANGE 0xFFA500
 int DEFAULT_LETTER_SIZE = 8; // Tamaño de letra predeterminado
-void keyHandler(int tecla);
+void keyHandler();
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -54,15 +54,17 @@ void *initializeKernelBinary()
 // uint8_t b = 255;
 int main()
 {
+
 	// ncPrint("[Kernel Main]");
 	// // printPixelsInFullScreen(r, g, b);
 
 	// putLetter('>', 0, 0, WHITE);
 	// putLetter('H', 9, 0, WHITE);
 	// putArray("Hola como estas ?", 45, 0, WHITE);
-		while(1){
-		//hlt
-		key_handler();
+	while (1)
+	{
+		// hlt
+		keyHandler();
 	}
 	return 0;
 }

@@ -93,3 +93,10 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 
 	return digits;
 }
+
+void ncBackspace(){
+    if(currentVideo>=0xB8002){ // si no es el primer caracter
+        currentVideo -= 2;
+        *currentVideo = ' ';
+    }
+}

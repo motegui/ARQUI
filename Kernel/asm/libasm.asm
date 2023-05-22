@@ -27,12 +27,12 @@ cpuVendor:
 	pop rbp
 	ret
 
-	;lo agregue yo
-	kbFlag:
+;agregado
+kbFlag:
         push rbp
         mov rbp, rsp
 		mov rax,0
-	loop:
+loop:
 	in al,0x64
     mov cl,al
     and al,0x01

@@ -1,4 +1,4 @@
-static const char keyBoardTable[tecla] =
+static const char keyBoardTable[256] =
     {
           0,    27,  '1',  '2',  '3',  '4',  '5',  '6',   '7',  '8',
           '9',   '0',   '-',  '=',8,' ','Q',  'W',  'E',  'R',
@@ -17,3 +17,4 @@ static const char keyBoardTable[tecla] =
 
 char nextElement();
 void keyHandler();
+ extern char kbFlag();
