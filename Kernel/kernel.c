@@ -4,6 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <video.h>
+#include <keyboard_driver.h>
 #define RED 0xFF0000
 #define GREEN 0x00FF00
 #define BLUE 0x0000FF
@@ -11,13 +12,8 @@
 #define BLACK 0x000000
 #define YELLOW 0xFFFF00
 #define ORANGE 0xFFA500
-// void draw_string(int x, int y, char *input, int len, int color, int backgroundColor);
-// void draw_char(int x, int y, char letter, int color, int backgroundColor);
-// void set_default_fontSize(int size);
-// int get_default_fontSize();
-// void fillrect(int x, int y, int color, int w, int h);
 int DEFAULT_LETTER_SIZE = 8; // Tamaño de letra predeterminado
-
+void keyHandler(int tecla);
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -58,11 +54,15 @@ void *initializeKernelBinary()
 // uint8_t b = 255;
 int main()
 {
-	ncPrint("[Kernel Main]");
-	// printPixelsInFullScreen(r, g, b);
+	// ncPrint("[Kernel Main]");
+	// // printPixelsInFullScreen(r, g, b);
 
-	putLetter('>', 0, 0, WHITE);
-	putLetter('H', 9, 0, WHITE);
-	putArray("Hola como estas ?", 45, 0, WHITE);
+	// putLetter('>', 0, 0, WHITE);
+	// putLetter('H', 9, 0, WHITE);
+	// putArray("Hola como estas ?", 45, 0, WHITE);
+		while(1){
+		//hlt
+		key_handler();
+	}
 	return 0;
 }
