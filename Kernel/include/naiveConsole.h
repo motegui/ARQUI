@@ -10,13 +10,14 @@
 //         'B',  'N',  'M',  ',',  '.',  '/',    0,  '*',     0,  ' ',    0,     0,     0,    0,       0,         0,
 //     };
 
-void ncPrint(const char * string);
-void ncPrintChar(char character);
+void ncPrint(const char * string, int color, int backColor);
+void ncPrintChar(char character, int color, int backColor);
 void ncNewline();
 void ncPrintDec(uint64_t value);
 void ncPrintHex(uint64_t value);
 void ncPrintBin(uint64_t value);
 void ncPrintBase(uint64_t value, uint32_t base);
 void ncClear();
+void ncBackspace();
 
 #endif

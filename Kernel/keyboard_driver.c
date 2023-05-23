@@ -4,11 +4,13 @@
 #include <naiveConsole.h>
 #define BUFF_SIZE 256
 #define TECLA_LIMITE_SUPERIOR 0X79
+#define ENTER 0x1C
+
 static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 static int front = 0;              // indica la posicion del primer elemento
 static int rear = 0;               // indica la posicion del ultimo elemento agregado
 static int cantElems = 0;
-extern char kbFlag();
+extern int kbFlag();
 
 char nextElement()
 { // se usa para obtener el sig elto en el buffer circular
@@ -24,7 +26,7 @@ char nextElement()
 
 void keyHandler()
 {
-     char tecla = kbFlag();
+     int tecla = kbFlag();
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
@@ -46,19 +48,27 @@ void keyHandler()
         ncBackspace();
         return;
     }
-    if (keyBoardTable[tecla] == '\t') // Tabulación
+    if (keyBoardTable[tecla] == '\t') // Tabulación (funciona)
     {
-        ncPrint("    ");
+        ncPrint("    ",BLACK,BLACK);
         return;
     }
-    if (keyBoardTable[tecla] == '\n') // Nueva línea
-    {
-        ncNewline();
-        return;
+
+    if(tecla >= 0x01 && tecla <=0x3A){
+            switch (tecla)
+            {
+            case ENTER:
+                putLine();
+                break;
+            default:
+                break;
+            }
     }
+
     if (tecla >= 0 && tecla <= 256 && keyBoardTable[tecla] != 0)
     {
         putLetterNext(keyBoardTable[tecla], WHITE);
         return;
     }
+
 }

@@ -1,4 +1,5 @@
 #include <naiveConsole.h>
+#define BLACK 0x000000
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -8,25 +9,27 @@ static uint8_t * currentVideo = (uint8_t*)0xB8000;
 static const uint32_t width = 80;
 static const uint32_t height = 25 ;
 
-void ncPrint(const char * string)
+void ncPrint(const char * string,int colorNum, int backColor)
 {
 	int i;
 
 	for (i = 0; string[i] != 0; i++)
-		ncPrintChar(string[i]);
+		ncPrintChar(string[i],colorNum,backColor);
 }
 
-void ncPrintChar(char character)
+void ncPrintChar(char character,int colorNum, int backColor)
 {
 	*currentVideo = character;
-	currentVideo += 2;
+	currentVideo ++;
+	*currentVideo = backColor*16 +colorNum;
+	currentVideo ++;
 }
 
 void ncNewline()
 {
 	do
 	{
-		ncPrintChar(' ');
+		//ncPrintChar(' ',BLACK,BLACK);
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
 }
@@ -49,7 +52,7 @@ void ncPrintBin(uint64_t value)
 void ncPrintBase(uint64_t value, uint32_t base)
 {
     uintToBase(value, buffer, base);
-    ncPrint(buffer);
+    //ncPrint(buffer,WHITE,RED);
 }
 
 void ncClear()
@@ -95,8 +98,15 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 }
 
 void ncBackspace(){
-    if(currentVideo>=0xB8002){ // si no es el primer caracter
-        currentVideo -= 2;
-        *currentVideo = ' ';
+    if (currentVideo > video) // Verificar si hay caracteres para borrar
+    {
+	currentVideo-=2;
+	//ncPrint(" ",BLACK,BLACK);
+	currentVideo -=2;
+
     }
+
 }
+
+
+
