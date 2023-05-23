@@ -161,8 +161,8 @@ void putLine()
 	pointer_x = 0;
 }
 
-void deleteChar(){
-	if(pointer_x==0){
-		pointer_x = pointer_x - CHAR_HEIGHT;
-	}
-}
+//  void deleteChar(){
+// 	if(pointer_x==0){
+// 		pointer_x = pointer_x - CHAR_HEIGHT;
+//  	}
+//  }

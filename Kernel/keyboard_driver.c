@@ -10,7 +10,7 @@ static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el
 static int front = 0;              // indica la posicion del primer elemento
 static int rear = 0;               // indica la posicion del ultimo elemento agregado
 static int cantElems = 0;
-extern int kbFlag();
+extern char kbFlag();
 
 char nextElement()
 { // se usa para obtener el sig elto en el buffer circular
@@ -26,7 +26,7 @@ char nextElement()
 
 void keyHandler()
 {
-     int tecla = kbFlag();
+     char tecla = kbFlag();
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
