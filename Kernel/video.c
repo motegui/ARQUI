@@ -77,11 +77,11 @@ void putArray(char *array, uint32_t x, uint32_t y, int color)
 		if (aux_x + CHAR_HEIGHT > VBE_mode_info->width)
 		{
 			aux_x = 0;
-			aux_y = aux_y + CHAR_HEIGHT + 1;
+			aux_y = aux_y + CHAR_HEIGHT;
 		}
 		putLetter(array[i], aux_x, aux_y, color);
 		i++;
-		aux_x = aux_x + CHAR_WIDTH + 1;
+		aux_x = aux_x + CHAR_WIDTH;
 	}
 }
 void intToString(int number, char *str)
@@ -120,10 +120,15 @@ void putDec(int number, uint32_t x, uint32_t y, int color)
 }
 void putLetterNext(int caracter, int color)
 {
+	if (caracter == '\b')
+	{
+		putBackspace();
+		return;
+	}
 	if (pointer_x + CHAR_HEIGHT > VBE_mode_info->width)
 	{
 		pointer_x = 0;
-		pointer_y = pointer_y + CHAR_HEIGHT + 1;
+		pointer_y = pointer_y + CHAR_HEIGHT;
 	}
 	unsigned char *bitMap = charBitmap(caracter);
 	for (int j = 0; j < CHAR_HEIGHT; j++)
@@ -138,7 +143,24 @@ void putLetterNext(int caracter, int color)
 			}
 		}
 	}
-	pointer_x = pointer_x + CHAR_WIDTH + 1;
+	pointer_x = pointer_x + CHAR_WIDTH;
+}
+void putBackspace()
+{
+	if (pointer_x == 0 && pointer_y == 0)
+		return;
+	pointer_x = pointer_x - CHAR_WIDTH;
+	for (int j = 0; j < CHAR_HEIGHT; j++)
+	{
+		for (int i = 0; i < CHAR_WIDTH; i++)
+		{
+			putPixel(0x000000, pointer_x + 7 - i, j + pointer_y); // Ejemplo: Establecer el píxel en rojo en la fila 0
+		}
+	}
+	if (pointer_x < 0 && pointer_y > 0) {
+		pointer_x = VBE_mode_info->width - CHAR_WIDTH;
+		pointer_y = (pointer_y >= CHAR_HEIGHT) ? pointer_y - CHAR_HEIGHT : 0;
+	}
 }
 void putArrayNext(char *array, int color)
 {
@@ -157,7 +179,7 @@ void putDecNext(int number, int color)
 }
 void putLine()
 {
-	pointer_y = pointer_y + CHAR_HEIGHT + 1;
+	pointer_y = pointer_y + CHAR_HEIGHT;
 	pointer_x = 0;
 }
 

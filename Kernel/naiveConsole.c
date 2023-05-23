@@ -1,4 +1,6 @@
 #include <naiveConsole.h>
+#include <video.h>
+
 #define BLACK 0x000000
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
@@ -14,7 +16,8 @@ void ncPrint(const char * string,int colorNum, int backColor)
 	int i;
 
 	for (i = 0; string[i] != 0; i++)
-		ncPrintChar(string[i],colorNum,backColor);
+		// ncPrintChar(string[i],colorNum,backColor);
+		putLetterNext(string[i], BLACK);
 }
 
 void ncPrintChar(char character,int colorNum, int backColor)
@@ -98,12 +101,10 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 }
 
 void ncBackspace(){
-    if (currentVideo > video) // Verificar si hay caracteres para borrar
-    {
-	currentVideo-=2;
-	//ncPrint(" ",BLACK,BLACK);
-	currentVideo -=2;
-
+    if (currentVideo > video) { // Verificar si hay caracteres para borrar
+		currentVideo-=2;
+		ncPrint(" ",BLACK,BLACK);
+		currentVideo -=2;
     }
 
 }

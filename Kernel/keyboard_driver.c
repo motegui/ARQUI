@@ -3,7 +3,7 @@
 #include <lib.h>
 #include <naiveConsole.h>
 #define BUFF_SIZE 256
-#define TECLA_LIMITE_SUPERIOR 0X79
+#define TECLA_LIMITE_SUPERIOR 90
 #define ENTER 0x1C
 
 static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
@@ -13,20 +13,24 @@ static int cantElems = 0;
 extern char kbFlag();
 
 char nextElement()
-{ // se usa para obtener el sig elto en el buffer circular
-    if (cantElems <= 0)
-    {
-        return -1;
+{
+    if (cantElems == 0) {
+        return 0xFF;
     }
-    char toReturn = buff[front];
-    front = (front + 1) % BUFF_SIZE; // esto es para chequear que no se vaya del tamaño definido para BUFF_SIZE
+
+    char c = buff[front];
+
     cantElems--;
-    return toReturn;
+    front++;
+
+    if (front == BUFF_SIZE) front = 0;
+
+    return c;
 }
 
 void keyHandler()
 {
-     char tecla = kbFlag();
+    char tecla = kbFlag();
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
@@ -43,7 +47,7 @@ void keyHandler()
         cantElems++;
     }
 
-    if (keyBoardTable[tecla] == '\b') // Retroceso
+    /* if (keyBoardTable[tecla] == '\b') // Retroceso
     {
         ncBackspace();
         return;
@@ -52,22 +56,24 @@ void keyHandler()
     {
         ncPrint("    ",BLACK,BLACK);
         return;
+    } */
+
+    if(tecla >= 0x01 && tecla <=0x3A) {
+        switch (tecla)
+        {
+        case ENTER:
+            putLine();
+            cantElems--;
+            return;
+        default:
+            break;
+        }
     }
 
-    if(tecla >= 0x01 && tecla <=0x3A){
-            switch (tecla)
-            {
-            case ENTER:
-                putLine();
-                break;
-            default:
-                break;
-            }
-    }
-
-    if (tecla >= 0 && tecla <= 256 && keyBoardTable[tecla] != 0)
+    if (tecla >= 0 && tecla <= 90 && keyBoardTable[tecla] != 0)
     {
         putLetterNext(keyBoardTable[tecla], WHITE);
+        cantElems--;
         return;
     }
 
