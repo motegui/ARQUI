@@ -24,9 +24,7 @@ char nextElement()
 
 void keyHandler()
 {
-    unsigned char tecla = kbFlag();
-    // esta funcion se llama cada vez que alguien presiona una tecla, lo del limte superior es para
-    // evitar que se incluya tmb un press de liberacion de la tecla debido a que tienen codigos diferentes
+    char tecla = kbFlag();
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
@@ -40,7 +38,31 @@ void keyHandler()
         if (front == BUFF_SIZE)
             front = 0;
         buff[rear++] = keyBoardTable[tecla];
-        putLetterNext(keyBoardTable[tecla], WHITE);
         cantElems++;
+    }
+      if (tecla == 0x39) // Tecla de espacio
+    {
+        ncPrint(" ");
+        return;
+    }
+    if (keyBoardTable[tecla] == '\b') // Retroceso
+    {
+        ncBackspace();
+        return;
+    }
+    if (keyBoardTable[tecla] == '\t') // Tabulación
+    {
+        ncPrint("    ");
+        return;
+    }
+    if (keyBoardTable[tecla] == '\n') // Nueva línea
+    {
+        ncNewline();
+        return;
+    }
+    if (tecla >= 0 && tecla <= 256 && keyBoardTable[tecla] != 0)
+    {
+        putLetterNext(keyBoardTable[tecla], WHITE);
+        return;
     }
 }
