@@ -9,3 +9,5 @@
 
 #Object files
 *.o
+
+start_docker.sh

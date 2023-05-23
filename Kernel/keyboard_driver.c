@@ -24,7 +24,7 @@ char nextElement()
 
 void keyHandler()
 {
-    int tecla = kbFlag();
+    unsigned char tecla = kbFlag();
     // esta funcion se llama cada vez que alguien presiona una tecla, lo del limte superior es para
     // evitar que se incluya tmb un press de liberacion de la tecla debido a que tienen codigos diferentes
 
