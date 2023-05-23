@@ -24,7 +24,7 @@ char nextElement()
 
 void keyHandler()
 {
-    char tecla = kbFlag();
+     char tecla = kbFlag();
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
@@ -40,11 +40,7 @@ void keyHandler()
         buff[rear++] = keyBoardTable[tecla];
         cantElems++;
     }
-      if (tecla == 0x39) // Tecla de espacio
-    {
-        ncPrint(" ");
-        return;
-    }
+
     if (keyBoardTable[tecla] == '\b') // Retroceso
     {
         ncBackspace();
