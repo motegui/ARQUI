@@ -63,10 +63,11 @@ int main()
 	// putLetter('>', 0, 0, WHITE);
 	// putLetter('H', 9, 0, WHITE);
 	// putArray("Hola como estas ?", 45, 0, WHITE);
-	// while (1)
-	// {
-	// 	// hlt
-	// 	keyHandler();
-	// }
-	 getTime(0, 0, WHITE);
+	putLetterNext('>', WHITE);
+	while (1)
+	{
+		// hlt
+		keyHandler();
+	}
+	// getTime(0, 0, WHITE);
 }

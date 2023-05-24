@@ -51,6 +51,18 @@ void putPixel(uint32_t hexColor, uint32_t x, uint32_t y)
 	screen[offset + 1] = (hexColor >> 8) & 0xFF;
 	screen[offset + 2] = (hexColor >> 16) & 0xFF;
 }
+
+void copyPixel(uint32_t new_x, uint32_t new_y, uint32_t old_x, uint32_t old_y){
+	uint8_t *screen = (uint8_t *)((uint64_t)(VBE_mode_info->framebuffer));
+	uint32_t offset_old = VBE_mode_info->pitch * old_y + old_x * 3;
+	uint32_t offset_new = VBE_mode_info->pitch * new_y + new_x * 3;
+	screen[offset_new] = screen[offset_old];
+	screen[offset_new + 1] = screen[offset_old + 1];
+	screen[offset_new + 2] = screen[offset_old + 2];
+}
+
+
+
 void putLetter(int caracter, uint32_t x, uint32_t y, int color)
 {
 	unsigned char *bitMap = charBitmap(caracter);
@@ -84,6 +96,34 @@ void putArray(char *array, uint32_t x, uint32_t y, int color)
 		aux_x = aux_x + CHAR_WIDTH;
 	}
 }
+
+void moveUpScreen()
+{
+    // Iterar desde el segundo renglón hasta el último
+    for (int y = 0; y < VBE_mode_info->height - CHAR_HEIGHT; y++)
+    {
+        // Copiar cada píxel del renglón siguiente al renglón actual
+        for (int x = 0; x < VBE_mode_info->width ; x++)
+        {
+            copyPixel(x, y , x, y + CHAR_HEIGHT);
+        }
+    }
+
+	// Iterar desde el segundo renglón hasta el último
+    for (int y = VBE_mode_info->height - CHAR_HEIGHT; y < VBE_mode_info->height; y++)
+    {
+        // Copiar cada píxel del renglón siguiente al renglón actual
+        for (int x = 0; x < VBE_mode_info->width ; x++)
+        {
+            putPixel(BLACK, x, y);
+        }
+    }
+
+	pointer_y=pointer_y-CHAR_HEIGHT;
+	pointer_x=0;
+}
+
+
 void intToString(int number, char *str)
 {
 	if (number == 0)
@@ -125,11 +165,15 @@ void putLetterNext(int caracter, int color)
 		putBackspace();
 		return;
 	}
-	if (pointer_x + CHAR_HEIGHT > VBE_mode_info->width)
+	if (pointer_x + CHAR_WIDTH > VBE_mode_info->width)
 	{
 		pointer_x = 0;
 		pointer_y = pointer_y + CHAR_HEIGHT;
 	}
+	if (pointer_y + CHAR_HEIGHT > VBE_mode_info->height)
+    {
+        moveUpScreen();
+    }
 	unsigned char *bitMap = charBitmap(caracter);
 	for (int j = 0; j < CHAR_HEIGHT; j++)
 	{
@@ -179,12 +223,10 @@ void putDecNext(int number, int color)
 }
 void putLine()
 {
+	if (pointer_y + CHAR_HEIGHT > VBE_mode_info->height)
+    {
+        moveUpScreen();
+    }
 	pointer_y = pointer_y + CHAR_HEIGHT;
 	pointer_x = 0;
 }
-
-//  void deleteChar(){
-// 	if(pointer_x==0){
-// 		pointer_x = pointer_x - CHAR_HEIGHT;
-//  	}
-//  }
