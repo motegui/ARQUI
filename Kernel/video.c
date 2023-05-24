@@ -173,7 +173,7 @@ void putArrayNext(char *array, int color)
 }
 void putDecNext(int number, int color)
 {
-	char *strNumber;
+	char strNumber[20];
 	intToString(number, strNumber);
 	putArrayNext(strNumber, color);
 }

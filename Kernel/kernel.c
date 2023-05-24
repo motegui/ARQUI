@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <video.h>
 #include <keyboard_driver.h>
+#include <time.h>
 #define RED 0xFF0000
 #define GREEN 0x00FF00
 #define BLUE 0x0000FF
@@ -13,7 +14,8 @@
 #define YELLOW 0xFFFF00
 #define ORANGE 0xFFA500
 int DEFAULT_LETTER_SIZE = 8; // Tamaño de letra predeterminado
-void keyHandler();
+//void keyHandler();
+void getTime(uint32_t x, uint32_t y, int color);
 extern uint8_t text;
 extern uint8_t rodata;
 extern uint8_t data;
@@ -61,10 +63,10 @@ int main()
 	// putLetter('>', 0, 0, WHITE);
 	// putLetter('H', 9, 0, WHITE);
 	// putArray("Hola como estas ?", 45, 0, WHITE);
-	while (1)
-	{
-		// hlt
-		keyHandler();
-	}
-	return 0;
+	// while (1)
+	// {
+	// 	// hlt
+	// 	keyHandler();
+	// }
+	 getTime(0, 0, WHITE);
 }

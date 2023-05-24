@@ -3,6 +3,7 @@
 #include <time_driver.h>
 #include <video.h>
 #include <lib.h>
+#include <time.h>
 extern int getHours();
 extern int getMinutes();
 extern int getSeconds();
@@ -14,10 +15,10 @@ int getFormat(int n)
     int units = n & 15;
     return dec * 10 + units;
 }
-getTime(uint32_t x, uint32_t y, int color)
+ void getTime(uint32_t x, uint32_t y, int color)
 {
     putArrayNext("HORA: ", color);
-    putDecNext(getHours(), color);
+    putDecNext(getFormat(getHours()), color);
     putArrayNext(":", color);
     putDecNext(getFormat(getMinutes()), color);
     putArrayNext(":", color);
