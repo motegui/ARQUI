@@ -123,6 +123,17 @@ void moveUpScreen()
 	pointer_x=0;
 }
 
+void clearScreen(){
+	for (int y = 0; y < VBE_mode_info->height; y++)
+    {
+        // Copiar cada píxel del renglón siguiente al renglón actual
+        for (int x = 0; x < VBE_mode_info->width ; x++)
+        {
+            putPixel(BLACK, x, y);
+        }
+    }
+}
+
 
 void intToString(int number, char *str)
 {
@@ -154,7 +165,7 @@ void intToString(int number, char *str)
 }
 void putDec(int number, uint32_t x, uint32_t y, int color)
 {
-	char *strNumber;
+	char *strNumber[20];
 	intToString(number, strNumber);
 	putArray(strNumber, x, y, color);
 }

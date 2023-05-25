@@ -17,3 +17,4 @@ void putLetterNext(int caracter, int color);
 void putArrayNext(char *array, int color);
 void putDecNext(int number, int color);
 void putLine();
+void clearScreen();

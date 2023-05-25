@@ -14,6 +14,7 @@ extern char kbFlag();
 
 char nextElement()
 {
+
     if (cantElems == 0) {
         return 0xFF;
     }
@@ -26,6 +27,7 @@ char nextElement()
     if (front == BUFF_SIZE) front = 0;
 
     return c;
+
 }
 
 void keyHandler()
@@ -47,34 +49,23 @@ void keyHandler()
         cantElems++;
     }
 
-    /* if (keyBoardTable[tecla] == '\b') // Retroceso
-    {
-        ncBackspace();
-        return;
-    }
-    if (keyBoardTable[tecla] == '\t') // Tabulación (funciona)
-    {
-        ncPrint("    ",BLACK,BLACK);
-        return;
-    } */
+        // if(tecla >= 0x01 && tecla <=0x3A) {
+        //     switch (tecla)
+        //     {
+        //     case ENTER:
+        //         putLine();
+        //         cantElems--;
+        //         return;
+        //     default:
+        //         break;
+        //     }
+        // }
 
-    if(tecla >= 0x01 && tecla <=0x3A) {
-        switch (tecla)
-        {
-        case ENTER:
-            putLine();
-            cantElems--;
-            return;
-        default:
-            break;
-        }
-    }
-
-    if (tecla >= 0 && tecla <= 90 && keyBoardTable[tecla] != 0)
-    {
-        putLetterNext(keyBoardTable[tecla], WHITE);
-        cantElems--;
-        return;
-    }
+        // if (tecla >= 0 && tecla <= 90 && keyBoardTable[tecla] != 0)
+        // {
+        //     //putLetterNext(keyBoardTable[tecla], WHITE);
+        //     cantElems--;
+        //     return;
+        // }
 
 }

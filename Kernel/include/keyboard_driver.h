@@ -17,4 +17,4 @@ static const char keyBoardTable[256] =
 
 char nextElement();
 void keyHandler();
- extern char kbFlag();
+extern char kbFlag();

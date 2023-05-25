@@ -1,18 +1,62 @@
-// #include <sys_calls.h>
-// #include <stdint.h>
-// #include <video.h>
-// #include <keyboard_driver.h>
-// #include <lib.h>
+ #include <sys_calls.h>
+ #include <stdint.h>
+ #include <video.h>
+ #include <keyboard_driver.h>
+ #include <lib.h>
 
-// void _0_empty(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4,uint64_t r5){
-//     ;
-// }
+ extern int getHours();
+ extern int getMinutes();
+ extern int getSeconds();
 
-// void _1_write(uint64_t x, uint64_t y, uint64_t c, uint64_t len, uint64_t color){
-//     draw_string(x, y, (char *) c, len, color, BLACK);
-// }
+typedef int64_t (*syscallT) (uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 
-// void _2_read(uint64_t buffer, uint64_t length, uint64_t r3, uint64_t r4, uint64_t r5){
-//     ((char*) buffer)[0] = nextElement();
 
-// }
+void _0_empty(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    clearScreen();
+ }
+
+ void _1_write(uint64_t c, uint64_t color, uint64_t r3, uint64_t r4, uint64_t r5){
+    putArrayNext( (char *) c, color);
+}
+
+ void _2_read(uint64_t buffer, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+     *((char*) buffer) = nextElement();
+}
+
+void _3_getHours(uint64_t hours, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    *((int*) hours) =  getHours();
+
+}
+
+void _4_getMinutes(uint64_t min, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    *((int*) min) =  getMinutes();
+}
+
+void _5_getSeconds(uint64_t seconds, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    *((int*) seconds) =  getSeconds();
+}
+
+void _6_newLine(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    putLine();
+}
+
+void _7_write_dec(uint64_t c, uint64_t color, uint64_t r3, uint64_t r4, uint64_t r5){
+    putDecNext( (int) c, color);
+}
+
+static syscallT syscalls[]  = {
+    (syscallT) _0_empty, 
+    (syscallT) _1_write, 
+    (syscallT) _2_read, 
+    (syscallT) _3_getHours, 
+    (syscallT) _4_getMinutes, 
+    (syscallT) _5_getSeconds,
+    (syscallT) _6_newLine, 
+    (syscallT) _7_write_dec,
+};
+
+
+
+int64_t sysDispatcher(uint64_t rax, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    return syscalls[rax](r1, r2, r3, r4, r5);
+}
