@@ -1,4 +1,3 @@
-
 #include <video.h>
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
@@ -230,3 +229,69 @@ void putLine()
 	pointer_y = pointer_y + CHAR_HEIGHT;
 	pointer_x = 0;
 }
+
+void printError(char * string){
+	int i = 0;
+	while(string[i] != '\0'){
+		putLetterNext(string[i], 0xFF0000);
+		i++;
+	}
+	putLetterNext('\n', WHITE);
+}
+
+
+// Converts an unsigned integer number to a character string representation in the specified base.
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
+    char *p = buffer;
+    char *p1, *p2;
+    uint32_t digits = 0;
+
+    //Calculate characters for each digit
+    do{
+        uint32_t remainder = value % base;
+        *p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+        digits++;
+    }
+    while (value /= base);
+
+    // Terminate string in buffer.
+    *p = 0;
+
+    //Reverse string in buffer.
+    p1 = buffer;
+    p2 = p - 1;
+    while (p1 < p2)
+    {
+        char tmp = *p1;
+        *p1 = *p2;
+        *p2 = tmp;
+        p1++;
+        p2--;
+    }
+
+    return digits;
+}
+
+void fillHexa(int num, char* buf){ 
+    for(int i = 15; i >= 0; i--){
+        if(i >= num){
+            buf[i] = buf[i-num];
+        }else{
+            buf[i] = '0';
+        }
+    }
+    buf[16] = '\0';
+}
+
+void printHexa(uint64_t value){
+    char buf[20];
+    int digits = uintToBase(value, buf, 16);
+    fillHexa(16-digits, buf);
+	int i = 0;
+    while(buf[i] != 0){
+		putLetterNext(buf[i], WHITE);
+		i++;
+	}
+}
+
+

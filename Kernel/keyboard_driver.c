@@ -12,10 +12,11 @@ static int rear = 0;               // indica la posicion del ultimo elemento agr
 static int cantElems = 0;
 extern char kbFlag();
 
-char nextElement()
+char nextElement()// este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
+
 {
     if (cantElems == 0) {
-        return 0xFF;
+        return 0xFF; 
     }
 
     char c = buff[front];
