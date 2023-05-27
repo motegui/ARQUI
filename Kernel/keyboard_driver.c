@@ -16,7 +16,7 @@ char nextElement()
 {
 
     if (cantElems == 0) {
-        return 0xFF;
+        return -1;
     }
 
     char c = buff[front];
@@ -28,6 +28,10 @@ char nextElement()
 
     return c;
 
+}
+
+int cantElements(){
+    return cantElems;
 }
 
 void keyHandler()

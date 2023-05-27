@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <user_syscalls.h>
-#include <userLib.h>
+#include <user_lib.h>
 
 void sys_clear_screen() {
     sys_int_80((uint64_t)0, 0, 0, 0, 0, 0);
@@ -33,15 +33,3 @@ void enter(){
 void sys_write_dec(int c, int color) {
     sys_int_80((uint64_t)7,(uint64_t) c,color,0,0, 0);
 }
-
-// void sys_beep(int freq, int time){
-//     sys_int_80((uint64_t)10,(uint64_t)freq,(uint64_t)time,0,0,0);
-// }
-
-// void sys_get_mem(int memoryPos, unsigned char * buff) {
-//     sys_int_80((uint64_t)12, (uint64_t)memoryPos, (uint64_t)buff, 0, 0, 0);
-// }
-
-// void sys_get_regs(int * captured, int * regs) {
-//     sys_int_80((uint64_t)13, (uint64_t)captured, (uint64_t) regs, 0, 0, 0);
-// }

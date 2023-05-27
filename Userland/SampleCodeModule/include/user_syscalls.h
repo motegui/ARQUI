@@ -1,4 +1,5 @@
 #include <stdint.h>
+
 void sys_clear_screen();
 
 void sys_write(char * c, int color);

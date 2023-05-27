@@ -1,9 +1,9 @@
-GLOBAL int_80
+GLOBAL sys_int_80
 
-int_80:
+sys_int_80:
     push rbp
     mov rbp, rsp
-    int 80
+    int 80h
     mov rsp, rbp
     pop rbp
     ret
