@@ -1,8 +1,8 @@
 #include <video.h>
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
-static int pointer_x = 0;
-static int pointer_y = 0;
+static int pointer_x = 3;
+static int pointer_y = 3;
 struct vbe_mode_info_structure
 {
 	uint16_t attributes;  // deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
@@ -119,7 +119,7 @@ void moveUpScreen()
     }
 
 	pointer_y=pointer_y-CHAR_HEIGHT;
-	pointer_x=0;
+	pointer_x=3;
 }
 
 void clearScreen(){
@@ -131,8 +131,8 @@ void clearScreen(){
             putPixel(BLACK, x, y);
         }
     }
-	pointer_x=0;
-	pointer_y=0;
+	pointer_x=3;
+	pointer_y=3;
 }
 
 
@@ -179,7 +179,7 @@ void putLetterNext(int caracter, int color)
 	}
 	if (pointer_x + CHAR_WIDTH > VBE_mode_info->width)
 	{
-		pointer_x = 0;
+		pointer_x = 3;
 		pointer_y = pointer_y + CHAR_HEIGHT;
 	}
 	if (pointer_y + CHAR_HEIGHT > VBE_mode_info->height)
@@ -240,7 +240,7 @@ void putLine()
         moveUpScreen();
     }
 	pointer_y = pointer_y + CHAR_HEIGHT;
-	pointer_x = 0;
+	pointer_x = 3;
 }
 
 void printError(char * string){

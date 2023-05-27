@@ -12,13 +12,17 @@ char buffer[BUFFER_SIZE];
 void help(){
 	sys_write("The available commands are:", WHITE);
 	enter();
-	sys_write("HELP: to get the information on the available commands", WHITE);
+	sys_write("HELP", GREEN);
+	sys_write(": to get the information on the available commands", WHITE);
 	enter();
-	sys_write("TIME: to get the current time", WHITE);
+	sys_write("TIME", GREEN);
+	sys_write(": to get the current time", WHITE);
 	enter();
-	sys_write("CLEAR: to clear the terminal", WHITE);
+	sys_write("CLEAR", GREEN);
+	sys_write(": to clear the terminal", WHITE);
 	enter();
-	sys_write("PONG: to play game", WHITE);
+	sys_write("PONG", GREEN);
+	sys_write(": to play game", WHITE);
 	enter();
 }
 
@@ -45,14 +49,14 @@ void command(char * entry){
 
 
 int main() {
-	sys_write("Welcome!", WHITE);
+	sys_write("Welcome!", PURPLE);
 	enter();
 	help();
-	sys_write(">", WHITE);
+	sys_write(">", BLUE);
 	while(1){
 		scanf(buffer, BUFFER_SIZE);
 		command(buffer);
-		sys_write(">", WHITE);
+		sys_write(">", BLUE);
 	}
 
 	return 0;
