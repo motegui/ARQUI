@@ -132,6 +132,8 @@ void clearScreen(){
             putPixel(BLACK, x, y);
         }
     }
+	pointer_x=0;
+	pointer_y=0;
 }
 
 
