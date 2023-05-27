@@ -18,6 +18,8 @@ void help(){
 	enter();
 	sys_write("CLEAR: to clear the terminal", WHITE);
 	enter();
+	sys_write("PONG: to play game", WHITE);
+	enter();
 }
 
 
@@ -31,6 +33,9 @@ void command(char * entry){
 	}
 	else if(strcmp(buffer, "HELP")==0){
 		help();
+	}
+	else if(strcmp(buffer, "PONG")==0){
+		pong();
 	}
 	else{
 		sys_write(buffer, WHITE);
