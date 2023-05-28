@@ -53,11 +53,10 @@ int main() {
 	sys_write("Welcome!", PURPLE);
 	enter();
 	help();
-	sys_write(">", BLUE);
 	while(1){
+		sys_write(">", BLUE);
 		scanf(buffer, BUFFER_SIZE);
 		command(buffer);
-		sys_write(">", BLUE);
 	}
 
 	return 0;

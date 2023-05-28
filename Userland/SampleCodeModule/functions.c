@@ -63,3 +63,31 @@ void deleteInitialFinalSpace(char * string){
     }
 }
  
+ void intToString(int number, char *str)
+{
+	if (number == 0)
+	{
+		str[0] = '0';
+		str[1] = '\0';
+		return;
+	}
+	int i = 0;
+	while (number > 0)
+	{
+		int digit = number % 10;
+		str[i++] = digit + '0';
+		number /= 10;
+	}
+	str[i] = '\0';
+	// Reverse the string
+	int start = 0;
+	int end = i - 1;
+	while (start < end)
+	{
+		char temp = str[start];
+		str[start] = str[end];
+		str[end] = temp;
+		start++;
+		end--;
+	}
+}

@@ -2,15 +2,24 @@
 #include <stdint.h>
 #include <time_driver.h>
 #include <user_syscalls.h>
+#include <functions.h>
 
 int getFormat(int n)
 {
-    // quiero pasarde int a char
     int dec = n % 240;
     dec = dec >> 4;
     int units = n & 15;
     return dec * 10 + units;
 }
+
+void addCero(char * buffer){
+    if(buffer[1]=='\0'){
+        buffer[2]='\0';
+        buffer[1]=buffer[0];
+        buffer[0]='0';
+    }
+}
+
  void getTime(int color)
 {
     sys_write("HORA: ", color);
@@ -18,9 +27,21 @@ int getFormat(int n)
     sys_get_hours(&hours);
     sys_get_minutes(&minutes);
     sys_get_seconds(&seconds);
-    sys_write_dec(getFormat(hours), color);
+    char str_hours[3];
+    char str_minutes[3];
+    char str_seconds[3];
+
+    intToString(getFormat(hours), str_hours);
+    addCero(str_hours);
+    sys_write(str_hours, color);
     sys_write(":", color);
-    sys_write_dec(getFormat(minutes), color);
+
+    intToString(getFormat(minutes), str_minutes);
+    addCero(str_minutes);
+    sys_write(str_minutes, color);
     sys_write(":", color);
-    sys_write_dec(getFormat(seconds), color);
+    
+    intToString(getFormat(seconds), str_seconds);
+    addCero(str_seconds);
+    sys_write(str_seconds, color);
 }
