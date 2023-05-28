@@ -40,4 +40,26 @@ void scanf(char * buffer, int bufferSize){
 	buffer[i]='\0';
     enter();
 }
+
+void deleteInitialFinalSpace(char * string){
+    int i=0;
+    while(string[i]==' '){
+        i++;
+    }
+    int j=0;
+    if(i!=0){
+        while(string[i-1]!='\0'){
+            string[j]=string[i];
+            i++;
+            j++;
+        }
+    }
+
+    int length;
+    for(length=0; string[length]!='\0'; length++){}
+    while(string[length-1]==' '){
+        string[length-1]=string[length];
+        length--;
+    }
+}
  

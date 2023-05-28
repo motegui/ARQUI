@@ -28,6 +28,7 @@ void help(){
 
 
 void command(char * entry){
+	deleteInitialFinalSpace(buffer);
 	if(strcmp(buffer, "TIME")==0){
 			getTime(WHITE);
 			enter();
