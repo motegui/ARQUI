@@ -53,6 +53,7 @@ void keyHandler()
         buff[rear++] = keyBoardTable[tecla];
         cantElems++;
     }
+    
 
         // if(tecla >= 0x01 && tecla <=0x3A) {
         //     switch (tecla)

@@ -29,7 +29,7 @@ void scanf(char * buffer, int bufferSize){
     int i=0;
 	while(letter[0] != '\n' && i<bufferSize-1){
 		sys_read(letter);
-		if (letter[0] != -1 && letter[0]!= 0 && letter[0]!='\n'){
+		if ((letter[0] >= '0' && letter[0]<= '9') || (letter[0] >= 'A' && letter[0]<= 'Z') && letter[0]!='\n'){
 			sys_write(letter, WHITE);
 			buffer[i++]=letter[0];
 		}
