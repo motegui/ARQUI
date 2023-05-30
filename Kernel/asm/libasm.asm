@@ -63,7 +63,7 @@ getMinutes:
     mov rsp, rbp
     pop rbp
     ret
-    getHours:
+getHours:
         push rbp
         mov rbp, rsp
         mov rax,0

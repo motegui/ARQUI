@@ -24,6 +24,9 @@ void help(){
 	sys_write("PONG", GREEN);
 	sys_write(": to play game", WHITE);
 	enter();
+	sys_write("REGISTERS", GREEN);
+	sys_write(": to print register status", WHITE);
+	enter();
 }
 
 
@@ -41,6 +44,10 @@ void command(char * entry){
 	}
 	else if(strcmp(buffer, "PONG")==0){
 		pong();
+	}
+	else if(strcmp(buffer, "REGISTERS")==0){
+		getRegInfo();
+		enter();
 	}
 	else{
 		sys_write(buffer, WHITE);

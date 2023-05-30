@@ -5,6 +5,10 @@
 #define BUFF_SIZE 256
 #define TECLA_LIMITE_SUPERIOR 90
 #define ENTER 0x1C
+#define CONTROL 0x1D
+
+extern uint64_t * registers;
+extern uint64_t * getRegs();
 
 static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 static int front = 0;              // indica la posicion del primer elemento
@@ -45,7 +49,11 @@ void keyHandler()
         {
             return;
         }
-        // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
+       if(tecla == CONTROL){
+            registers = getRegs();
+            putArrayNext("Saving registers",GREEN);
+        }
+       // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
         if (rear == BUFF_SIZE)
             rear = 0;
         if (front == BUFF_SIZE)
