@@ -2,18 +2,17 @@
 #include <video.h>
 #include <lib.h>
 #include <naiveConsole.h>
+#include <stdbool.h>
 #define BUFF_SIZE 256
 #define TECLA_LIMITE_SUPERIOR 90
 #define CONTROL 0x1D
-
-extern uint64_t * registers;
-extern uint64_t * getRegs();
 
 static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 static int front = 0;              // indica la posicion del primer elemento
 static int rear = 0;               // indica la posicion del ultimo elemento agregado
 static int cantElems = 0;
 extern char kbFlag();
+bool savedRegs = false; 
 
 char nextElement()// este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 
@@ -49,8 +48,8 @@ void keyHandler()
             return;
         }
        if(tecla == CONTROL){
-            registers = getRegs();
-            putArrayNext("Saving registers",GREEN);
+            savedRegs = true;
+            getRegs();
             return;
         }
        // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
@@ -82,4 +81,8 @@ void keyHandler()
         //     return;
         // }
 
+}
+
+bool isRegsSaved(){
+    return savedRegs;
 }

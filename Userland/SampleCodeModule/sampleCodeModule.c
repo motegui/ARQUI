@@ -49,6 +49,12 @@ void command(char * entry){
 		getRegInfo();
 		enter();
 	}
+	else if(strcmp(buffer, "REGSTESTER")==0){
+		print("r10 tiene que valer A, r9: 5, rcx: 8");
+		print("apretar control ahora");
+		testRegs();
+		enter();
+	}
 	else{
 		sys_write(buffer, WHITE);
 		enter();

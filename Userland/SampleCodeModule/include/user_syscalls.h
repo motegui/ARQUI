@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 void sys_clear_screen();
 
@@ -14,6 +15,6 @@ void sys_get_seconds(int * sec);
 
 void sys_write_dec(int c, int color);
 
-void sys_registers(uint64_t * registers);
+void sys_registers(uint64_t * registers, bool * isSaved);
 
 void enter();

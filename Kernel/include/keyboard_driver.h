@@ -1,3 +1,4 @@
+#include <stdbool.h>
 static const char keyBoardTable[256] =
     {
           0,27,'1',  '2',  '3',  '4',  '5',  '6',   '7',  '8',
@@ -19,3 +20,4 @@ char nextElement();
 void keyHandler();
 extern char kbFlag();
 int cantElements();
+bool isRegsSaved();

@@ -1,10 +1,50 @@
 GLOBAL getRegs
 GLOBAL getRSP
+GLOBAL regs
 section .bss
-	regs resb 8*18 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
+	regs resb 8*18	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
 
 section .text
+
+%macro pushState 0
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rbp
+	push rdi
+	push rsi
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
+%endmacro
+
+%macro popState 0
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop r10
+	pop r9
+	pop r8
+	pop rsi
+	pop rdi
+	pop rbp
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
+%endmacro
+
+
 getRegs:
+	pushState
 	mov [regs], rax       ; Guarda el valor de RAX en regs
 	mov [regs+8], rbx     ; Guarda el valor de RBX en regs+8
 	mov [regs+8*2], rcx   ; Guarda el valor de RCX en regs+16
@@ -20,7 +60,7 @@ getRegs:
 	mov [regs+8*12], r13  ; Guarda el valor de R13 en regs+96
 	mov [regs+8*13], r14  ; Guarda el valor de R14 en regs+104
 	mov [regs+8*14], r15  ; Guarda el valor de R15 en regs+112
-	mov rax, regs         ; Carga la dirección de regs en RAX
+	popState
 	ret                   ; Retorna el valor en RAX
 
 getRSP:
