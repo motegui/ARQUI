@@ -14,6 +14,20 @@ void drawScreenBorders(int starty, int endy, int startx, int endx){
     }
 }
 
+void drawRectangle(int x, int y, int sizex, int sizey){
+    for(int i = 0; i<sizex; i++){
+        for(int j=0; j< sizey; j++){
+            sys_put_pixel(WHITE, i+x, j+y);
+        }
+    }
+}
+
+void drawDottedLine(int x, int y, int length, int size){
+    for(int i=0; i<length; i+=size*2){
+        drawRectangle(x-size/2, i+y, size, size);
+    }
+}
+
 void pong(){
     sys_clear_screen();
     int widthScreen;
@@ -25,4 +39,5 @@ void pong(){
     int left = (widthScreen-width)/2;
     int right = widthScreen-(widthScreen-width)/2;
     drawScreenBorders(top, bottom, left, right);
+    drawDottedLine(widthScreen/2, top, bottom-top, 4);
 }
