@@ -4,7 +4,6 @@
 #include <naiveConsole.h>
 #define BUFF_SIZE 256
 #define TECLA_LIMITE_SUPERIOR 90
-#define ENTER 0x1C
 #define CONTROL 0x1D
 
 extern uint64_t * registers;
@@ -52,6 +51,7 @@ void keyHandler()
        if(tecla == CONTROL){
             registers = getRegs();
             putArrayNext("Saving registers",GREEN);
+            return;
         }
        // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
         if (rear == BUFF_SIZE)

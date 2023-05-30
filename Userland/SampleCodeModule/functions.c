@@ -33,8 +33,9 @@ void scanf(char * buffer, int bufferSize){
 			sys_write(letter, WHITE);
 			buffer[i++]=letter[0];
 		}
-        if(letter[0]=='\b'){
-            i-=2;
+        if(letter[0]=='\b' && i>0){
+            sys_write(letter, WHITE);
+            i-=1;
         }
 	}
 	buffer[i]='\0';

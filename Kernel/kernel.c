@@ -52,7 +52,7 @@ void *initializeKernelBinary()
 // uint8_t b = 255;
 int main()
 {
-	registers = getRegs();
+	//registers = getRegs();
 	load_idt(); //setear la idt antes de que empiece a correr la terminal
 	//save...
 	//restore...
