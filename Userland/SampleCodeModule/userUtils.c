@@ -1,2 +1,0 @@
-//funciones para el usuario 
-

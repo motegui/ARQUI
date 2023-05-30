@@ -10,7 +10,7 @@ void sys_write(char * c, int color) {
     sys_int_80((uint64_t)1,(uint64_t) c,color,0,0, 0);
 }
 
-void sys_read( char * buff){
+void sys_read(char * buff){
     sys_int_80((uint64_t)2,(uint64_t)buff,0, 0, 0, 0);
 } 
 
@@ -33,3 +33,9 @@ void enter(){
 void sys_write_dec(int c, int color) {
     sys_int_80((uint64_t)7,(uint64_t) c,color,0,0, 0);
 }
+
+void sys_registers(uint64_t * registers){
+   sys_int_80((uint64_t)8,(uint64_t)registers, 0, 0, 0, 0);
+}
+
+

@@ -14,4 +14,6 @@ void sys_get_seconds(int * sec);
 
 void sys_write_dec(int c, int color);
 
+void sys_registers(uint64_t * registers);
+
 void enter();
