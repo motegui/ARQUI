@@ -15,3 +15,7 @@ void sys_get_seconds(int * sec);
 void sys_write_dec(int c, int color);
 
 void enter();
+
+void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y);
+
+void sys_get_screen_width(int * width);

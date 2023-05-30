@@ -45,6 +45,15 @@ void _7_write_dec(uint64_t c, uint64_t color, uint64_t r3, uint64_t r4, uint64_t
     putDecNext( (int) c, color);
 }
 
+void _8_put_pixel(uint64_t color, uint64_t x, uint64_t y, uint64_t r4, uint64_t r5){
+    putPixel((uint32_t) color, (uint32_t) x, (uint32_t) y);
+}
+
+void _9_get_screen_width(uint64_t width, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    *((int*) width) =  getWidth();
+
+}
+
 static syscallT syscalls[]  = {
     (syscallT) _0_empty, 
     (syscallT) _1_write, 
@@ -54,6 +63,8 @@ static syscallT syscalls[]  = {
     (syscallT) _5_getSeconds,
     (syscallT) _6_newLine, 
     (syscallT) _7_write_dec,
+    (syscallT) _8_put_pixel,
+    (syscallT) _9_get_screen_width
 };
 
 int64_t sysDispatcher(uint64_t syscall, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){

@@ -33,3 +33,11 @@ void enter(){
 void sys_write_dec(int c, int color) {
     sys_int_80((uint64_t)7,(uint64_t) c,color,0,0, 0);
 }
+
+void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y){
+    sys_int_80((uint64_t)8,(uint64_t) color, (uint64_t) x, (uint64_t) y,0, 0);
+}
+
+void sys_get_screen_width(int * width){
+    sys_int_80((uint64_t)9,(uint64_t) width, 0, 0,0, 0);
+}

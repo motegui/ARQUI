@@ -42,6 +42,10 @@ struct vbe_mode_info_structure
 typedef struct vbe_mode_info_structure *VBEInfoPtr;
 VBEInfoPtr VBE_mode_info = (VBEInfoPtr)0x0000000000005C00;
 
+int getWidth(){
+	return VBE_mode_info->width;
+}
+
 void putPixel(uint32_t hexColor, uint32_t x, uint32_t y)
 {
 	uint8_t *screen = (uint8_t *)((uint64_t)(VBE_mode_info->framebuffer));
