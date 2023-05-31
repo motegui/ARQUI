@@ -11,13 +11,6 @@
 #define HEIGHT 3
 #define RADIO 2
 
-// struct rectangle{
-//     int x;
-//     int y;
-//     int length;
-//     int width;
-// };
-// typedef struct rectangle * Rectangle;
 
 int widthScreen;
 int height;
@@ -53,25 +46,7 @@ void drawDottedLine(int x, int y, int length, int size){
     }
 }
 
-// void drawBar(Rectangle bar){
-//     drawRectangle(bar->x, bar->y, bar->width, bar->length, WHITE);
-// }
 
-// void moveUpBar(Rectangle bar){
-//     int move = 5;
-//     drawRectangle(bar->x, bar->y + bar->length - move, bar->width, move, BLACK);
-//     bar->y=bar->y-5;
-//     drawBar(bar);
-
-// }
-
-// void moveDownBar(Rectangle bar){
-//     int move = 5;
-//     drawRectangle(bar->x, bar->y, bar->width, move, BLACK);
-//     bar->y=bar->y+5;
-//     drawBar(bar);
-
-// }
 
 void drawBar(int * bar){
     drawRectangle(bar[X], bar[Y], bar[WIDTH], bar[HEIGHT], WHITE);
@@ -96,22 +71,20 @@ void moveDownBar(int * bar){
 
 }
 
-void drawBall(int * circle){
-    int radio = circle[RADIO];
-    int auxX=circle[X];
-    int auxY=circle[Y]-radio;
-    for(int i=0; i<=radio; i+=2){
-        for(int j=0; j<=i; j++){
-            sys_put_pixel(WHITE, auxX+j, auxY);
-            sys_put_pixel(WHITE, auxX-j, auxY);
-        }
-        for(int j=0; j<=i; j++){
-            sys_put_pixel(WHITE, auxX+j, auxY);
-            sys_put_pixel(WHITE, auxX-j, auxY);
-        }
-        auxY+=2;
-    }
 
+void drawBall(int *circle) {
+    int x = circle[X];
+    int y = circle[Y];
+    int r = circle[RADIO];
+    int color = WHITE;
+
+    for (int i = -r; i <= r; i++) {
+        for (int j = -r; j <= r; j++) {
+            if (i * i + j * j <= r * r) {
+                sys_put_pixel(color, x + i, y + j);
+            }
+        }
+    }
 }
 
 
@@ -157,16 +130,7 @@ void pong(){
             ball[Y]=(bottom-top)/2;
             ball[RADIO]=5;
             
-            // Rectangle barR;
-            // Rectangle barL;
-            // barL->x=left+20;
-            // barL->y=top+100;
-            // barL->width=10;
-            // barL->length=50;
-            // barR->x=right-30;
-            // barR->y=top+100;
-            // barR->width=10;
-            // barR->length=50;
+        
             drawBar(barL);
             drawBar(barR);
             drawBall(ball);
