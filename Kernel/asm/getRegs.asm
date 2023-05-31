@@ -2,7 +2,7 @@ GLOBAL getRegs
 GLOBAL getRSP
 GLOBAL regs
 section .bss
-	regs resb 8*18	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
+	regs resb 8*19	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
 
 section .text
 
@@ -60,9 +60,12 @@ getRegs:
 	mov [regs+8*12], r13  ; Guarda el valor de R13 en regs+96
 	mov [regs+8*13], r14  ; Guarda el valor de R14 en regs+104
 	mov [regs+8*14], r15  ; Guarda el valor de R15 en regs+112
+	mov rax, [rsp] ; we get the value of RIP
+	mov [regs+8*15], rax
 	popState
 	ret                   ; Retorna el valor en RAX
 
 getRSP:
 	mov rax, rsp
+	
 	ret

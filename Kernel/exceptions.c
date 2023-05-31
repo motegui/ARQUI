@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "video.h"
 
-#define REGISTERS_QTY 15
+#define REGISTERS_QTY 16
 
 void zeroException();
 void invalidOpException();
@@ -12,6 +12,7 @@ extern void reset();
 void exceptionDispatcher(void * excepCode){
     switch((uint64_t)excepCode){
         case 0:
+			putLine();
             zeroException(); 
             break;
 		case 6:
@@ -20,7 +21,8 @@ void exceptionDispatcher(void * excepCode){
 	}
 	
 	printError("--REGISTERS AT TIME OF EXCEPTION--");
-	char * registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RBP", "RDI", "RSI", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"};
+	putLine();
+	char * registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RBP", "RDI", "RSI", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15","RIP"};
 	uint64_t * regs = getRegs();
 	for(int i = 0; i < REGISTERS_QTY; i++){
         int j = 0;
@@ -34,14 +36,16 @@ void exceptionDispatcher(void * excepCode){
 		putLetterNext('0', WHITE);
 		putLetterNext('x', WHITE);
 		printHexa(regs[i]);
-		putLetterNext('\n', WHITE);
+		putLine();
 	}
 	printError("--RESTARTING--");
+	putLine();
 	reset();
 }
 
 void zeroException(){
-    putArrayNext("ERROR: DIVIDING BY ZERO", WHITE);
+    printError("ERROR: DIVIDING BY ZERO");
+	putLine();
 }
 
 void invalidOpException(){
