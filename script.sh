@@ -21,4 +21,4 @@ docker exec -it $container_name make -C /root/
 # Detener el contenedor Docker
 docker stop $container_name
 
-bash run.sh
+
