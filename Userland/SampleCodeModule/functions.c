@@ -42,6 +42,16 @@ void scanf(char * buffer, int bufferSize){
     enter();
 }
 
+char getKey(){
+    char key[2];
+	key[1]='\0';
+    sys_read(key);
+    while(key[0]==-1){
+        sys_read(key);
+    }
+    return key[0];
+}
+
 void deleteInitialFinalSpace(char * string){
     int i=0;
     while(string[i]==' '){
