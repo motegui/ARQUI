@@ -40,9 +40,12 @@ section .text
 
 testRegs:
     pushState
+	mov rax, 3735928559
+	mov rbx, 3735928559
+	mov rcx, 3735928559
+	mov rdx, 3735928559
     mov r10, 10
     mov r9, 5
-    mov rax, 0000000000000001h
     mov r8, 1000000000
 
 loop:

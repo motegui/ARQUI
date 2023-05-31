@@ -8,6 +8,7 @@ GLOBAL _hlt
 
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
+
 GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
@@ -16,6 +17,7 @@ GLOBAL _int80Handler
 
 
 GLOBAL _exception0Handler
+GLOBAL _exception6Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -83,6 +85,7 @@ SECTION .text
 
 	popState
 	iretq
+	
 %endmacro
 
 _int80Handler:
@@ -177,12 +180,14 @@ _irq05Handler:
 _exception0Handler:
 	exceptionHandler 0
 
+;Invalid Operation Exception
+_exception6Handler:
+	exceptionHandler 6
+
 haltcpu:
 	cli
 	hlt
 	ret
-
-
 
 
 SECTION .bss

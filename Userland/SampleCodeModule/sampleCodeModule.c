@@ -3,6 +3,7 @@
 #include <time_driver.h>
 #include <user_syscalls.h>
 #include <functions.h>
+#include <divisionTester.h>
 
 #define BUFFER_SIZE 50
 
@@ -26,6 +27,9 @@ void help(){
 	enter();
 	sys_write("REGISTERS", GREEN);
 	sys_write(": to print register status", WHITE);
+	enter();
+	sys_write("DIVIDE BY ZERO", GREEN);
+	sys_write(": to trigger divide by zero exception", WHITE);
 	enter();
 }
 
@@ -54,6 +58,10 @@ void command(char * entry){
 		print("apretar control ahora");
 		testRegs();
 		enter();
+	}
+	else if(strcmp(buffer, "DIVIDE BY ZERO")==0){
+		divisionTester();
+	
 	}
 	else{
 		sys_write(buffer, WHITE);

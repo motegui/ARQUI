@@ -6,9 +6,10 @@
 void zeroException();
 void invalidOpException();
 extern uint64_t * getRegs();
+extern void reset(); 
 
 
-uint64_t exceptionDispatcher(void * excepCode){
+void exceptionDispatcher(void * excepCode){
     switch((uint64_t)excepCode){
         case 0:
             zeroException(); 
@@ -17,8 +18,9 @@ uint64_t exceptionDispatcher(void * excepCode){
 			invalidOpException();
 			break;
 	}
+	
 	printError("--REGISTERS AT TIME OF EXCEPTION--");
-	char* registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RBP", "RDI", "RSI", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"};
+	char * registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RBP", "RDI", "RSI", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"};
 	uint64_t * regs = getRegs();
 	for(int i = 0; i < REGISTERS_QTY; i++){
         int j = 0;
@@ -35,11 +37,11 @@ uint64_t exceptionDispatcher(void * excepCode){
 		putLetterNext('\n', WHITE);
 	}
 	printError("--RESTARTING--");
-    return 0;
+	reset();
 }
 
 void zeroException(){
-    printError("ERROR: DIVIDING BY ZERO");
+    putArrayNext("ERROR: DIVIDING BY ZERO", WHITE);
 }
 
 void invalidOpException(){
