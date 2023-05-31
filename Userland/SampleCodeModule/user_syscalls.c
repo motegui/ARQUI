@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <user_syscalls.h>
 #include <user_lib.h>
 
@@ -12,7 +11,7 @@ void sys_write(char * c, int color) {
 
 void sys_read(char * buff){
     sys_int_80((uint64_t)2,(uint64_t)buff,0, 0, 0, 0);
-} 
+}
 
 void sys_get_hours(int * hours){
     sys_int_80((uint64_t)3, (uint64_t)hours, 0, 0, 0, 0);
@@ -33,3 +32,10 @@ void enter(){
 void sys_write_dec(int c, int color) {
     sys_int_80((uint64_t)7,(uint64_t) c,color,0,0, 0);
 }
+
+void sys_beep(int freq, int time){
+    sys_int_80((uint64_t)8,(uint64_t)freq,(uint64_t)time,0,0,0);
+}
+ void sys_get_ticks(int ticks) {
+     sys_int_80((uint64_t)11, (uint64_t)ticks, 0, 0, 0, 0);
+ }

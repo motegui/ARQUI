@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Nombre del contenedor Docker
-container_name="tpArqui"
+container_name="tparqui"
 
 # Iniciar el contenedor Docker
 docker start $container_name
@@ -20,3 +20,5 @@ docker exec -it $container_name make -C /root/
 
 # Detener el contenedor Docker
 docker stop $container_name
+
+bash run.sh

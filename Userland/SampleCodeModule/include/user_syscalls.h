@@ -15,3 +15,7 @@ void sys_get_seconds(int * sec);
 void sys_write_dec(int c, int color);
 
 void enter();
+
+void sys_beep(int freq, int time);
+
+void sys_get_ticks(int ticks);

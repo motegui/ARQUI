@@ -8,3 +8,5 @@ void _5_getSeconds(uint64_t seconds, uint64_t r2, uint64_t r3, uint64_t r4, uint
 int64_t sysDispatcher(uint64_t syscall, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);
 void _6_newLine(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);
 void _7_write_dec(uint64_t c, uint64_t color, uint64_t r3, uint64_t r4, uint64_t r5);
+void _8_beep(uint64_t frequency, uint64_t time, uint64_t r3, uint64_t r4, uint64_t r5);
+ void _9_get_ticks(uint64_t  delta, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);

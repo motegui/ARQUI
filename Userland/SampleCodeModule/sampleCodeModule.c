@@ -10,6 +10,7 @@
 char buffer[BUFFER_SIZE];
 
 void help(){
+
 	sys_write("The available commands are:", WHITE);
 	enter();
 	sys_write("HELP", GREEN);
@@ -50,8 +51,10 @@ void command(char * entry){
 
 
 int main() {
+	sys_beep(300,5);
 	sys_write("Welcome!", PURPLE);
 	enter();
+
 	help();
 	while(1){
 		sys_write(">", BLUE);
