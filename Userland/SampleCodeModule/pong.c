@@ -54,7 +54,7 @@ void drawBar(int * bar){
 
 void moveUpBar(int * bar){
     int move=0;
-    for(move=0; bar[Y]-move>top+1 && move<=5; move++){}
+    for(move=0; bar[Y]-move>top+1 && move<=10; move++){}
 
     drawRectangle(bar[X], bar[Y] + bar[HEIGHT] - move, bar[WIDTH], move, BLACK);
     bar[Y]=bar[Y]-move;
@@ -64,7 +64,7 @@ void moveUpBar(int * bar){
 
 void moveDownBar(int * bar){
     int move = 0;
-    for(move=0; bar[Y]+bar[HEIGHT]+move<bottom && move<=5; move++){}
+    for(move=0; bar[Y]+bar[HEIGHT]+move<bottom && move<=10; move++){}
     drawRectangle(bar[X], bar[Y], bar[WIDTH], move, BLACK);
     bar[Y]=bar[Y]+move;
     drawBar(bar);
@@ -103,7 +103,7 @@ void pong(){
     //int widthScreen;
     sys_get_screen_width(&widthScreen);
     height = 500;
-    width = 700;
+    width = 900;
     top = 5;
     bottom = top + height;
     left = (widthScreen-width)/2;
@@ -122,6 +122,7 @@ void pong(){
             sys_clear_screen();
             drawScreenBorders(top, bottom, left, right);
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
+
             int barL[4]; //={left+20, top+100, 10, 50};
             int barR[4]; //={right-30, top+100, 10, 50};
             int ball[3];
@@ -130,19 +131,19 @@ void pong(){
             barL[X]=left+20;
             barL[Y]=top+100;
             barL[WIDTH]=10;
-            barL[HEIGHT]=80;
+            barL[HEIGHT]=100;
 
             barR[X]=right-30;
             barR[Y]=top+100;
             barR[WIDTH]=10;
-            barR[HEIGHT]=80;
+            barR[HEIGHT]=100;
 
             ball[X]=widthScreen/2;
             ball[Y]=(bottom-top)/2;
-            ball[RADIO]=5;
+            ball[RADIO]=10;
 
-            lastDir[X]=2;
-            lastDir[Y]=3;
+            lastDir[X]=8;
+            lastDir[Y]=10;
             
         
             drawBar(barL);
@@ -151,23 +152,6 @@ void pong(){
             while(1){
                 sys_get_ticks(1);
                 key=getKey();
-                if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
-                    lastDir[X]=-lastDir[X];
-                    lastDir[Y]=-lastDir[Y];
-                }
-                if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
-                    lastDir[X]=-lastDir[X];
-                    lastDir[Y]=-lastDir[Y];
-                }
-                if(ball[Y]-ball[RADIO]+lastDir[Y]<top+1){
-                    lastDir[Y]=-lastDir[Y];
-                }
-
-                if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
-                    lastDir[Y]=-lastDir[Y];
-                }
-                moveBall(ball, lastDir[X], lastDir[Y]);
-                
                 if(key=='W'){
                     moveUpBar(barL);
                 }
@@ -182,8 +166,47 @@ void pong(){
                 }
                 if(key==ESC){
                     sys_clear_screen();
-            return;
+                    return;
                 }
+                if(ball[Y]-ball[RADIO]+lastDir[Y]<top+1){
+                    lastDir[Y]=-lastDir[Y];
+                }
+
+                if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
+                    lastDir[Y]=-lastDir[Y];
+                }
+                if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
+                        lastDir[X]=-lastDir[X];
+                        lastDir[Y]=-lastDir[Y];
+                    if(ball[Y]+ball[RADIO]>barR[Y] && ball[Y]-ball[RADIO]<barR[Y]+barR[HEIGHT]){
+                    }
+                    else{
+                        drawBall(ball, BLACK);
+                        ball[X]=widthScreen/2;
+                        ball[Y]=(bottom-top)/2;
+                        sys_beep(300,5);
+                        sys_get_ticks(30);
+                    }
+                
+                }
+                if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
+                        lastDir[X]=-lastDir[X];
+                        lastDir[Y]=-lastDir[Y];
+                    if(ball[Y]+ball[RADIO]>barL[Y] && ball[Y]-ball[RADIO]<barL[Y]+barL[HEIGHT]){
+                    }
+                    else{
+                        drawBall(ball, BLACK);
+                        ball[X]=widthScreen/2;
+                        ball[Y]=(bottom-top)/2;
+                        sys_beep(300,5);
+                        sys_get_ticks(30);
+                    }
+                    
+                }
+                
+
+                moveBall(ball, lastDir[X], lastDir[Y]);
+                
             }
         }
     }
