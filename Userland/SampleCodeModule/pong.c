@@ -1,8 +1,30 @@
+#include <stdint.h>
+#include <stdlib.h>
 #include <pong.h>
 #include <functions.h>
 #include <user_syscalls.h>
 
 #define ESC 27
+#define X 0
+#define Y 1
+#define WIDTH 2
+#define HEIGHT 3
+
+// struct rectangle{
+//     int x;
+//     int y;
+//     int length;
+//     int width;
+// };
+// typedef struct rectangle * Rectangle;
+
+int widthScreen;
+int height;
+int width;
+int top;
+int bottom;
+int left;
+int right;
 
 void drawScreenBorders(int starty, int endy, int startx, int endx){
     for (int x = startx; x<= endx; x++){
@@ -16,31 +38,75 @@ void drawScreenBorders(int starty, int endy, int startx, int endx){
     }
 }
 
-void drawRectangle(int x, int y, int sizex, int sizey){
+void drawRectangle(int x, int y, int sizex, int sizey, int color){
     for(int i = 0; i<sizex; i++){
         for(int j=0; j< sizey; j++){
-            sys_put_pixel(WHITE, i+x, j+y);
+            sys_put_pixel(color, i+x, j+y);
         }
     }
 }
 
 void drawDottedLine(int x, int y, int length, int size){
     for(int i=0; i<length; i+=size*2){
-        drawRectangle(x-size/2, i+y, size, size);
+        drawRectangle(x-size/2, i+y, size, size, WHITE);
     }
 }
+
+// void drawBar(Rectangle bar){
+//     drawRectangle(bar->x, bar->y, bar->width, bar->length, WHITE);
+// }
+
+// void moveUpBar(Rectangle bar){
+//     int move = 5;
+//     drawRectangle(bar->x, bar->y + bar->length - move, bar->width, move, BLACK);
+//     bar->y=bar->y-5;
+//     drawBar(bar);
+
+// }
+
+// void moveDownBar(Rectangle bar){
+//     int move = 5;
+//     drawRectangle(bar->x, bar->y, bar->width, move, BLACK);
+//     bar->y=bar->y+5;
+//     drawBar(bar);
+
+// }
+
+void drawBar(int * bar){
+    drawRectangle(bar[X], bar[Y], bar[WIDTH], bar[HEIGHT], WHITE);
+}
+
+void moveUpBar(int * bar){
+    int move=0;
+    for(move=0; bar[Y]-move>top+1 && move<=5; move++){}
+
+    drawRectangle(bar[X], bar[Y] + bar[HEIGHT] - move, bar[WIDTH], move, BLACK);
+    bar[Y]=bar[Y]-move;
+    drawBar(bar);
+
+}
+
+void moveDownBar(int * bar){
+    int move = 0;
+    for(move=0; bar[Y]+bar[HEIGHT]+move<bottom && move<=5; move++){}
+    drawRectangle(bar[X], bar[Y], bar[WIDTH], move, BLACK);
+    bar[Y]=bar[Y]+move;
+    drawBar(bar);
+
+}
+
 
 void pong(){
     char key;
     sys_clear_screen();
-    int widthScreen;
+    //int widthScreen;
     sys_get_screen_width(&widthScreen);
-    int height = 500;
-    int width = 700;
-    int top = 5;
-    int bottom = top+height;
-    int left = (widthScreen-width)/2;
-    int right = widthScreen-(widthScreen-width)/2;
+    height = 500;
+    width = 700;
+    top = 5;
+    bottom = top + height;
+    left = (widthScreen-width)/2;
+    right = widthScreen-(widthScreen-width)/2;
     sys_write("Press ENTER to play", WHITE);
     enter();
     sys_write("Press ESC to leave the game at any moment", WHITE);
@@ -54,8 +120,49 @@ void pong(){
             sys_clear_screen();
             drawScreenBorders(top, bottom, left, right);
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
+            int barL[4]; //={left+20, top+100, 10, 50};
+            int barR[4]; //={right-30, top+100, 10, 50};
+            barL[0]=left+20;
+            barL[1]=top+100;
+            barL[2]=10;
+            barL[3]=50;
+            barR[0]=right-30;
+            barR[1]=top+100;
+            barR[2]=10;
+            barR[3]=50;
+            // Rectangle barR;
+            // Rectangle barL;
+            // barL->x=left+20;
+            // barL->y=top+100;
+            // barL->width=10;
+            // barL->length=50;
+            // barR->x=right-30;
+            // barR->y=top+100;
+            // barR->width=10;
+            // barR->length=50;
+            drawBar(barL);
+            drawBar(barR);
+            while(1){
+                key=getKey();
+                if(key=='W'){
+                    moveUpBar(barL);
+                }
+                if(key=='S'){
+                    moveDownBar(barL);
+                }
+                if(key==38){
+                    moveUpBar(barR);
+                }
+                if(key==40){
+                    moveDownBar(barR);
+                }
+                if(key==ESC){
+                    sys_clear_screen();
+            return;
+                }
+            }
         }
     }
 
-    
+
 }
