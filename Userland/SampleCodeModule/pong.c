@@ -9,6 +9,7 @@
 #define Y 1
 #define WIDTH 2
 #define HEIGHT 3
+#define RADIO 2
 
 // struct rectangle{
 //     int x;
@@ -95,6 +96,24 @@ void moveDownBar(int * bar){
 
 }
 
+void drawBall(int * circle){
+    int radio = circle[RADIO];
+    int auxX=circle[X];
+    int auxY=circle[Y]-radio;
+    for(int i=0; i<=radio; i+=2){
+        for(int j=0; j<=i; j++){
+            sys_put_pixel(WHITE, auxX+j, auxY);
+            sys_put_pixel(WHITE, auxX-j, auxY);
+        }
+        for(int j=0; j<=i; j++){
+            sys_put_pixel(WHITE, auxX+j, auxY);
+            sys_put_pixel(WHITE, auxX-j, auxY);
+        }
+        auxY+=2;
+    }
+
+}
+
 
 void pong(){
     char key;
@@ -122,14 +141,22 @@ void pong(){
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
             int barL[4]; //={left+20, top+100, 10, 50};
             int barR[4]; //={right-30, top+100, 10, 50};
-            barL[0]=left+20;
-            barL[1]=top+100;
-            barL[2]=10;
-            barL[3]=50;
-            barR[0]=right-30;
-            barR[1]=top+100;
-            barR[2]=10;
-            barR[3]=50;
+            int ball[3];
+
+            barL[X]=left+20;
+            barL[Y]=top+100;
+            barL[WIDTH]=10;
+            barL[HEIGHT]=50;
+
+            barR[X]=right-30;
+            barR[Y]=top+100;
+            barR[WIDTH]=10;
+            barR[HEIGHT]=50;
+
+            ball[X]=100;
+            ball[Y]=(bottom-top)/2;
+            ball[RADIO]=5;
+            
             // Rectangle barR;
             // Rectangle barL;
             // barL->x=left+20;
@@ -142,6 +169,7 @@ void pong(){
             // barR->length=50;
             drawBar(barL);
             drawBar(barR);
+            drawBall(ball);
             while(1){
                 key=getKey();
                 if(key=='W'){
@@ -150,10 +178,10 @@ void pong(){
                 if(key=='S'){
                     moveDownBar(barL);
                 }
-                if(key==38){
+                if(key=='O'){
                     moveUpBar(barR);
                 }
-                if(key==40){
+                if(key=='L'){
                     moveDownBar(barR);
                 }
                 if(key==ESC){
