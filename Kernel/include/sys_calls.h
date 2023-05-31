@@ -12,3 +12,4 @@ void _8_beep(uint64_t frequency, uint64_t time, uint64_t r3, uint64_t r4, uint64
 void _9_get_ticks(uint64_t  delta, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);
 void _10_put_pixel(uint64_t color, uint64_t x, uint64_t y, uint64_t r4, uint64_t r5);
 void _11_get_screen_width(uint64_t width, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);
+void _12_clean_buffer(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5);

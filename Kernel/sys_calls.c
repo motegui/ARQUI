@@ -61,6 +61,10 @@ void _11_get_screen_width(uint64_t width, uint64_t r2, uint64_t r3, uint64_t r4,
 
 }
 
+void _12_clean_buffer(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    cleanBuffer();
+ }
+
 static syscallT syscalls[]  = {
     (syscallT) _0_empty,
     (syscallT) _1_write,
@@ -73,7 +77,8 @@ static syscallT syscalls[]  = {
     (syscallT) _8_beep,
     (syscallT) _9_get_ticks,
     (syscallT) _10_put_pixel,
-    (syscallT) _11_get_screen_width
+    (syscallT) _11_get_screen_width,
+    (syscallT) _12_clean_buffer
 };
 
 int64_t sysDispatcher(uint64_t syscall, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){

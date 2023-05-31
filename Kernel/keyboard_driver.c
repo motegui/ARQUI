@@ -35,6 +35,12 @@ int cantElements(){
     return cantElems;
 }
 
+void cleanBuffer(){
+    cantElems=0;
+    front=0;
+    rear=0;
+}
+
 void keyHandler()
 {
     char tecla = kbFlag();

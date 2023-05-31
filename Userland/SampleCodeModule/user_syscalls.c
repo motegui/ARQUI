@@ -48,3 +48,7 @@ void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y){
 void sys_get_screen_width(int * width){
     sys_int_80((uint64_t)11,(uint64_t) width, 0, 0,0, 0);
 }
+
+void sys_get_clean_buffer(){
+    sys_int_80((uint64_t)12, 0, 0, 0, 0, 0);
+}

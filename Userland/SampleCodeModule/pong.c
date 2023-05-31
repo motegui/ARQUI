@@ -54,7 +54,7 @@ void drawBar(int * bar){
 
 void moveUpBar(int * bar){
     int move=0;
-    for(move=0; bar[Y]-move>top+1 && move<=10; move++){}
+    for(move=0; bar[Y]-move>top+1 && move<=15; move++){}
 
     drawRectangle(bar[X], bar[Y] + bar[HEIGHT] - move, bar[WIDTH], move, BLACK);
     bar[Y]=bar[Y]-move;
@@ -64,7 +64,7 @@ void moveUpBar(int * bar){
 
 void moveDownBar(int * bar){
     int move = 0;
-    for(move=0; bar[Y]+bar[HEIGHT]+move<bottom && move<=10; move++){}
+    for(move=0; bar[Y]+bar[HEIGHT]+move<bottom && move<=15; move++){}
     drawRectangle(bar[X], bar[Y], bar[WIDTH], move, BLACK);
     bar[Y]=bar[Y]+move;
     drawBar(bar);
@@ -154,15 +154,23 @@ void pong(){
                 key=getKey();
                 if(key=='W'){
                     moveUpBar(barL);
+                    sys_get_clean_buffer();
+                    
                 }
                 if(key=='S'){
                     moveDownBar(barL);
+                    sys_get_clean_buffer();
+                   
                 }
                 if(key=='O'){
                     moveUpBar(barR);
+                    sys_get_clean_buffer();
+                    
                 }
                 if(key=='L'){
                     moveDownBar(barR);
+                    sys_get_clean_buffer();
+                    
                 }
                 if(key==ESC){
                     sys_clear_screen();

@@ -22,3 +22,5 @@ void sys_get_ticks(int ticks);
 void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y);
 
 void sys_get_screen_width(int * width);
+
+void sys_get_clean_buffer();
