@@ -11,3 +11,4 @@ int strcmp(char *X, char *Y);
 void scanf(char * buffer, int bufferSize);
 void deleteInitialFinalSpace(char * string);
 void intToString(int number, char *str);
+char getKey();

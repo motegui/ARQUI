@@ -33,12 +33,23 @@ void scanf(char * buffer, int bufferSize){
 			sys_write(letter, WHITE);
 			buffer[i++]=letter[0];
 		}
-        if(letter[0]=='\b'){
-            i-=2;
+        if(letter[0]=='\b' && i>0){
+            sys_write(letter, WHITE);
+            i-=1;
         }
 	}
 	buffer[i]='\0';
     enter();
+}
+
+char getKey(){
+    char key[2];
+	key[1]='\0';
+    sys_read(key);
+    while(key[0]==-1){
+        sys_read(key);
+    }
+    return key[0];
 }
 
 void deleteInitialFinalSpace(char * string){
