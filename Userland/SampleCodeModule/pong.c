@@ -71,12 +71,11 @@ void moveDownBar(int * bar){
 
 }
 
-
-void drawBall(int *circle) {
+//chatgpt
+void drawBall(int *circle, int color) {
     int x = circle[X];
     int y = circle[Y];
     int r = circle[RADIO];
-    int color = WHITE;
 
     for (int i = -r; i <= r; i++) {
         for (int j = -r; j <= r; j++) {
@@ -86,6 +85,16 @@ void drawBall(int *circle) {
         }
     }
 }
+
+void moveBall(int * ball, int x, int y){
+    drawBall(ball, BLACK);
+    ball[X]=ball[X]+x;
+    ball[Y]=ball[Y]+y;
+    drawBall(ball, WHITE);
+    drawDottedLine(widthScreen/2, top, bottom-top, 4);
+}
+
+
 
 
 void pong(){
@@ -99,6 +108,7 @@ void pong(){
     bottom = top + height;
     left = (widthScreen-width)/2;
     right = widthScreen-(widthScreen-width)/2;
+
     sys_write("Press ENTER to play", WHITE);
     enter();
     sys_write("Press ESC to leave the game at any moment", WHITE);
@@ -115,27 +125,49 @@ void pong(){
             int barL[4]; //={left+20, top+100, 10, 50};
             int barR[4]; //={right-30, top+100, 10, 50};
             int ball[3];
+            int lastDir[2];
 
             barL[X]=left+20;
             barL[Y]=top+100;
             barL[WIDTH]=10;
-            barL[HEIGHT]=50;
+            barL[HEIGHT]=80;
 
             barR[X]=right-30;
             barR[Y]=top+100;
             barR[WIDTH]=10;
-            barR[HEIGHT]=50;
+            barR[HEIGHT]=80;
 
-            ball[X]=100;
+            ball[X]=widthScreen/2;
             ball[Y]=(bottom-top)/2;
             ball[RADIO]=5;
+
+            lastDir[X]=2;
+            lastDir[Y]=3;
             
         
             drawBar(barL);
             drawBar(barR);
-            drawBall(ball);
+            drawBall(ball, WHITE);
             while(1){
+                sys_get_ticks(1);
                 key=getKey();
+                if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
+                    lastDir[X]=-lastDir[X];
+                    lastDir[Y]=-lastDir[Y];
+                }
+                if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
+                    lastDir[X]=-lastDir[X];
+                    lastDir[Y]=-lastDir[Y];
+                }
+                if(ball[Y]-ball[RADIO]+lastDir[Y]<top+1){
+                    lastDir[Y]=-lastDir[Y];
+                }
+
+                if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
+                    lastDir[Y]=-lastDir[Y];
+                }
+                moveBall(ball, lastDir[X], lastDir[Y]);
+                
                 if(key=='W'){
                     moveUpBar(barL);
                 }

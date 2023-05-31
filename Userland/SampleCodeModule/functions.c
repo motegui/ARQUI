@@ -46,6 +46,13 @@ char getKey(){
     char key[2];
 	key[1]='\0';
     sys_read(key);
+    return key[0];
+}
+
+char getChar(){
+    char key[2];
+	key[1]='\0';
+    sys_read(key);
     while(key[0]==-1){
         sys_read(key);
     }
