@@ -107,7 +107,9 @@ void command(char * entry){
 	
 	}
 	else{
-		sys_write(buffer, WHITE);
+		sys_write("Invalid command", WHITE);
+		enter();
+		help();
 		enter();
 	}
 }

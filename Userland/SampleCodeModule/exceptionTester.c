@@ -3,11 +3,15 @@ extern void divzerotester();
 extern void opcodetester();
 
 void divisionTester(){
-        printLine("Dividing by zero..");
-		divzerotester();
+    enter();
+    print("Dividing by zero..");
+    enter();
+	divzerotester();
 }
 
 void invalidOpTester(){
-        printLine("Invalid Operation..");
-		opcodetester();
+    enter();
+    print("Invalid Operation..");
+    enter();
+	opcodetester();
 }

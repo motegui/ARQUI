@@ -113,13 +113,6 @@ void deleteInitialFinalSpace(char * string){
 
 
 
-//reading
-int getChar(){
-    char c = 0;
-    sys_read(&c);
-    return c;
-}
-
 
 //printing
 void print(char * string){

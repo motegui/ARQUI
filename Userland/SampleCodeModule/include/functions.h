@@ -20,7 +20,7 @@ void deleteInitialFinalSpace(char * string);
 void intToString(int number, char *str);
 char getKey();
 void print(char * string);
-int getChar();
+char getChar();
 int strlen(char * string);
 void printBase(uint64_t value, uint32_t base);
 void printHexa(uint64_t value);
