@@ -23,6 +23,7 @@ int seconds_elapsed() {
 // }
 void sleepms(int mseconds) {
 	int startTime = ticks_elapsed();
-	while (mseconds > ticks_elapsed()*18 - startTime*18)
-	_hlt();
+	while (mseconds > ticks_elapsed()*18 - startTime*18){
+		_hlt();
+	}
 };

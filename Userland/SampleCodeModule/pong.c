@@ -3,6 +3,7 @@
 #include <pong.h>
 #include <functions.h>
 #include <user_syscalls.h>
+#include <stdbool.h>
 
 #define ESC 27
 #define X 0
@@ -19,6 +20,8 @@ int top;
 int bottom;
 int left;
 int right;
+
+
 
 void drawScreenBorders(int starty, int endy, int startx, int endx){
     for (int x = startx; x<= endx; x++){
@@ -94,6 +97,54 @@ void moveBall(int * ball, int x, int y){
     drawDottedLine(widthScreen/2, top, bottom-top, 4);
 }
 
+//izquierda es false, derecha es true
+void nextMoveBall(int ball[], int lastDir[], int bar[], bool side){
+    int cuadrant=bar[HEIGHT]/10;
+    int j=1;
+    if(side){
+        j=-1;
+    }
+    if(ball[Y]<bar[Y]+cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=-15;
+    }
+    else if(ball[Y]<bar[Y]+2*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=-12;
+    }
+    else if(ball[Y]<bar[Y]+3*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=-10;
+    }
+    else if(ball[Y]<bar[Y]+4*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=-5;
+    }
+    else if(ball[Y]<bar[Y]+5*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=-3;
+    }
+    else if(ball[Y]<bar[Y]+6*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=3;
+    }
+    else if(ball[Y]<bar[Y]+7*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=5;
+    }
+    else if(ball[Y]<bar[Y]+9*cuadrant){
+        lastDir[X]=j*17;
+        lastDir[Y]=10;
+    }
+    else if(ball[Y]<bar[Y]+9*cuadrant){
+        lastDir[X]=j*7;
+        lastDir[Y]=12;
+    }
+    else{
+        lastDir[X]=j*17;
+        lastDir[Y]=15;
+    }
+}
 
 
 
@@ -142,8 +193,8 @@ void pong(){
             ball[Y]=(bottom-top)/2;
             ball[RADIO]=10;
 
-            lastDir[X]=8;
-            lastDir[Y]=10;
+            lastDir[X]=20;
+            lastDir[Y]=0;
 
 
             drawBar(barL);
@@ -184,11 +235,13 @@ void pong(){
                     lastDir[Y]=-lastDir[Y];
                 }
                 if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
-                        lastDir[X]=-lastDir[X];
-                        lastDir[Y]=-lastDir[Y];
                     if(ball[Y]+ball[RADIO]>barR[Y] && ball[Y]-ball[RADIO]<barR[Y]+barR[HEIGHT]){
+                        nextMoveBall(ball, lastDir, barR, true);
+                        //choca en la barra derecha
                     }
                     else{
+                        lastDir[X]=-lastDir[X];
+                        lastDir[Y]=-lastDir[Y];
                         drawBall(ball, BLACK);
                         ball[X]=widthScreen/2;
                         ball[Y]=(bottom-top)/2;
@@ -198,11 +251,13 @@ void pong(){
 
                 }
                 if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
-                        lastDir[X]=-lastDir[X];
-                        lastDir[Y]=-lastDir[Y];
                     if(ball[Y]+ball[RADIO]>barL[Y] && ball[Y]-ball[RADIO]<barL[Y]+barL[HEIGHT]){
+                        nextMoveBall(ball, lastDir, barL, false);
+                        //choca en la barra izquierda
                     }
                     else{
+                        lastDir[X]=-lastDir[X];
+                        lastDir[Y]=-lastDir[Y];
                         drawBall(ball, BLACK);
                         ball[X]=widthScreen/2;
                         ball[Y]=(bottom-top)/2;
