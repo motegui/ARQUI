@@ -1,3 +1,5 @@
+#include <stdint.h>
+#include <stdbool.h>
 #include <user_syscalls.h>
 #include <user_lib.h>
 
@@ -52,3 +54,8 @@ void sys_get_screen_width(int * width){
 void sys_get_clean_buffer(){
     sys_int_80((uint64_t)12, 0, 0, 0, 0, 0);
 }
+void sys_registers(uint64_t * registers, bool * isSaved){
+   sys_int_80((uint64_t)13,(uint64_t)registers, (uint64_t) isSaved, 0, 0, 0);
+}
+
+

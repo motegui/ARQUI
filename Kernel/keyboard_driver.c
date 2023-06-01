@@ -2,15 +2,16 @@
 #include <video.h>
 #include <lib.h>
 #include <naiveConsole.h>
+#include <stdbool.h>
 #define BUFF_SIZE 256
 #define TECLA_LIMITE_SUPERIOR 90
-#define ENTER 0x1C
+#define CONTROL 0x1D
 
 static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 static int front = 0;              // indica la posicion del primer elemento
 static int rear = 0;               // indica la posicion del ultimo elemento agregado
 static int cantElems = 0;
-extern char kbFlag();
+bool savedRegs = false; 
 
 char nextElement()// este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
 
@@ -41,9 +42,9 @@ void cleanBuffer(){
     rear=0;
 }
 
-void keyHandler()
+void keyHandler(uint64_t scancode)
 {
-    char tecla = kbFlag();
+    char tecla = scancode;
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {
@@ -51,7 +52,12 @@ void keyHandler()
         {
             return;
         }
-        // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
+       if(tecla == CONTROL){
+            savedRegs = true;
+            return;
+        }
+    
+       // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
         if (rear == BUFF_SIZE)
             rear = 0;
         if (front == BUFF_SIZE)
@@ -59,25 +65,9 @@ void keyHandler()
         buff[rear++] = keyBoardTable[tecla];
         cantElems++;
     }
-    
 
-        // if(tecla >= 0x01 && tecla <=0x3A) {
-        //     switch (tecla)
-        //     {
-        //     case ENTER:
-        //         putLine();
-        //         cantElems--;
-        //         return;
-        //     default:
-        //         break;
-        //     }
-        // }
+}
 
-        // if (tecla >= 0 && tecla <= 90 && keyBoardTable[tecla] != 0)
-        // {
-        //     //putLetterNext(keyBoardTable[tecla], WHITE);
-        //     cantElems--;
-        //     return;
-        // }
-
+bool isRegsSaved(){
+    return savedRegs;
 }

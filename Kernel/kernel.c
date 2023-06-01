@@ -15,6 +15,8 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
+uint64_t * registers;
+
 
 static const uint64_t PageSize = 0x1000;
 
@@ -35,6 +37,7 @@ void *getStackBase()
 	);
 }
 
+
 void *initializeKernelBinary()
 {
 	void *moduleAddresses[] = {
@@ -49,7 +52,6 @@ void *initializeKernelBinary()
 // uint8_t b = 255;
 int main()
 {
-
 	load_idt(); //setear la idt antes de que empiece a correr la terminal
 	//beep(300,5);
 	//save...

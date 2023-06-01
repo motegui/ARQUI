@@ -110,3 +110,83 @@ void deleteInitialFinalSpace(char * string){
 		end--;
 	}
 }
+
+
+
+//reading
+int getChar(){
+    char c = 0;
+    sys_read(&c);
+    return c;
+}
+
+
+//printing
+void print(char * string){
+	sys_write(string, WHITE);
+
+}
+
+
+//strings
+int strlen(char * string){
+    int i = 0;
+    while(string[i++] != 0);
+    return i-1;
+}
+
+void printBase(uint64_t value, uint32_t base){
+    char buf[20];
+    uintToBase(value, buf, base);
+    print(buf);
+}
+
+void printHexa(uint64_t value){
+    char buf[20];
+    int digits = uintToBase(value, buf, 16);
+    fillHexa(16-digits, buf);
+    print(buf);
+}
+
+//la sacamos de naiveConsole
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
+    char *p = buffer;
+    char *p1, *p2;
+    uint32_t digits = 0;
+
+    //Calculate characters for each digit
+    do{
+        uint32_t remainder = value % base;
+        *p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+        digits++;
+    }
+    while (value /= base);
+
+    // Terminate string in buffer.
+    *p = 0;
+
+    //Reverse string in buffer.
+    p1 = buffer;
+    p2 = p - 1;
+    while (p1 < p2)
+    {
+        char tmp = *p1;
+        *p1 = *p2;
+        *p2 = tmp;
+        p1++;
+        p2--;
+    }
+
+    return digits;
+}
+
+void fillHexa(int num, char* buf){ //para llenar los 0 de los hexa
+    for(int i = 15; i >= 0; i--){
+        if(i >= num){
+            buf[i] = buf[i-num];
+        }else{
+            buf[i] = '0';
+        }
+    }
+    buf[16] = '\0';
+}

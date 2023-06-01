@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 void sys_clear_screen();
 
@@ -24,3 +25,5 @@ void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y);
 void sys_get_screen_width(int * width);
 
 void sys_get_clean_buffer();
+void sys_registers(uint64_t * registers, bool * isSaved);
+
