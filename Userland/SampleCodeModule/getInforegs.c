@@ -8,7 +8,7 @@ void getRegInfo() {
     bool isSaved;
     sys_registers(registers, &isSaved);
     if(!isSaved){
-        print("Registers not saved");
+        print("Registers not saved. Press 'CTRL' to save registers status.");
     }
     else{
         print("-- REGISTER VALUES --\n");
