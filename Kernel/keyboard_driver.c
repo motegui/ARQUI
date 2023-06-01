@@ -49,9 +49,12 @@ void keyHandler()
         }
        if(tecla == CONTROL){
             savedRegs = true;
+            /*
             getRegs();
+            */
             return;
         }
+    
        // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
         if (rear == BUFF_SIZE)
             rear = 0;

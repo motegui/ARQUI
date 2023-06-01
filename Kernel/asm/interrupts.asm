@@ -185,6 +185,7 @@ _exception6Handler:
 	exceptionHandler 6
 
 haltcpu:
+%endmacro
 	cli
 	hlt
 	ret
