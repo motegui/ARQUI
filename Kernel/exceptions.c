@@ -3,9 +3,9 @@
 
 #define REGISTERS_QTY 16
 
+extern const uint64_t regs[18];
 void zeroException();
 void invalidOpException();
-extern uint64_t * getRegs();
 extern void reset(); 
 
 
@@ -16,14 +16,14 @@ void exceptionDispatcher(void * excepCode){
             zeroException(); 
             break;
 		case 6:
+			putLine();
 			invalidOpException();
 			break;
 	}
-	
+
 	printError("--REGISTERS AT TIME OF EXCEPTION--");
 	putLine();
-	char * registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RBP", "RDI", "RSI", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15","RIP"};
-	uint64_t * regs = getRegs();
+	char * registers[REGISTERS_QTY] = {"RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15","RIP"};
 	for(int i = 0; i < REGISTERS_QTY; i++){
         int j = 0;
 		while(registers[i][j] != 0){
@@ -50,5 +50,6 @@ void zeroException(){
 
 void invalidOpException(){
 	printError("ERROR: INVALID OPERATION CODE");
+	putLine();
 }
 

@@ -3,7 +3,7 @@
 #include <time_driver.h>
 #include <user_syscalls.h>
 #include <functions.h>
-#include <divisionTester.h>
+#include <exceptionTester.h>
 
 #define BUFFER_SIZE 50
 
@@ -25,11 +25,17 @@ void help(){
 	sys_write("PONG", GREEN);
 	sys_write(": to play game", WHITE);
 	enter();
+	sys_write("REGISTERS TEST", GREEN);
+	sys_write(": to check the correct loading of registers ", WHITE);
+	enter();
 	sys_write("REGISTERS", GREEN);
 	sys_write(": to print register status", WHITE);
 	enter();
 	sys_write("DIVIDE BY ZERO", GREEN);
 	sys_write(": to trigger divide by zero exception", WHITE);
+	enter();
+	sys_write("INVALID OPERATION", GREEN);
+	sys_write(": to trigger invalid operation exception ", WHITE);
 	enter();
 }
 
@@ -53,14 +59,24 @@ void command(char * entry){
 		getRegInfo();
 		enter();
 	}
-	else if(strcmp(buffer, "REGSTESTER")==0){
-		print("r10 tiene que valer A, r9: 5, rcx: 8");
-		print("apretar control ahora");
+	else if(strcmp(buffer, "REGISTERS TEST")==0){
+		print("Registers should have the next values");
+		enter();
+		print("RAX = 2 - RBX = 2 - RCX = 2 - RDX = 6 - RSI = 8 - RDI = 1 - RBP = 1 - R8 = AN HEXA NUMBER ");
+		enter();
+		print("R9 = 9 - R10 = A - R11 = B - R12 = C - R13 = D - R14 = E - R15 = F");
+		enter();
+		print("Press 'CTRL' now");
+		enter();
 		testRegs();
 		enter();
 	}
 	else if(strcmp(buffer, "DIVIDE BY ZERO")==0){
 		divisionTester();
+	
+	}
+	else if(strcmp(buffer, "INVALID OPERATION")==0){
+		invalidOpTester();
 	
 	}
 	else{

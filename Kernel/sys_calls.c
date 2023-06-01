@@ -3,10 +3,8 @@
  #include <video.h>
  #include <keyboard_driver.h>
  #include <lib.h>
- #include <getRegs.h>
  #include <stdbool.h>
 
-extern const uint64_t regsExcp[18];
 extern const uint64_t regs[18];
 
 extern int getHours();
@@ -60,11 +58,6 @@ void _8_save_registers(uint64_t registers, uint64_t isSaved, uint64_t r3, uint64
             ((uint64_t *) registers)[i] = regs[i];
     }
 }
-/*Void _15_registers_exception(uint64_t registers, uint64_t isSaved, uint64_t r3, uint64_t r4, uint64_t r5){
-    for(int i = 0; i<18; i++){
-            ((uint64_t *) registers)[i] = regsExcp[i];
-    }
-}*/
 static syscallT syscalls[]  = {
     (syscallT) _0_empty, 
     (syscallT) _1_write, 
@@ -75,7 +68,6 @@ static syscallT syscalls[]  = {
     (syscallT) _6_newLine, 
     (syscallT) _7_write_dec,
     (syscallT) _8_save_registers,
-    /*(syscallT) _15_registers_exception*/
 };
 
 int64_t sysDispatcher(uint64_t syscall, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){

@@ -45,7 +45,6 @@ testRegs:
 	mov rcx, 2
 	mov rdx, 6
 	mov rsi, 8
-	mov rdi, 10
     mov r10, 10
 	mov r11, 11
 	mov r12, 12
