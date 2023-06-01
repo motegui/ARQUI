@@ -1,5 +1,5 @@
 global loader
-global reset 
+global reset
 EXTERN main
 EXTERN initializeKernelBinary
 EXTERN  getStackBase
@@ -13,7 +13,14 @@ hang:
 	hlt	; halt machine should kernel return
 	jmp hang
 
-reset
-	call getStackBase
-	mov rsp, rax
-	call main
+;reset
+	;call getStackBase
+	;mov rsp, rax
+	;call main
+	;mov rsp, rbp     ;reseteamos el stack para que no se quede sin lugar
+    ;mov rax, 0x400000    ;saltamos nuevamente a sample code module
+    ;jmp rax
+    ;ret
+
+
+

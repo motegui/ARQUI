@@ -6,14 +6,14 @@
 extern const uint64_t regs[18];
 void zeroException();
 void invalidOpException();
-extern void reset(); 
+extern void reset();
 
 
 void exceptionDispatcher(void * excepCode){
     switch((uint64_t)excepCode){
         case 0:
 			putLine();
-            zeroException(); 
+            zeroException();
             break;
 		case 6:
 			putLine();
@@ -40,7 +40,7 @@ void exceptionDispatcher(void * excepCode){
 	}
 	printError("--RESTARTING--");
 	putLine();
-	reset();
+	//reset();
 }
 
 void zeroException(){
@@ -52,4 +52,5 @@ void invalidOpException(){
 	printError("ERROR: INVALID OPERATION CODE");
 	putLine();
 }
+
 

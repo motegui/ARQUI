@@ -1,4 +1,3 @@
-
 GLOBAL _cli
 GLOBAL _sti
 GLOBAL picMasterMask
@@ -20,10 +19,12 @@ GLOBAL _exception6Handler
 GLOBAL _exception0Handler
 
 GLOBAL regs
+GLOBAL restore_stack
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN sysDispatcher
+EXTERN getStackBase
 
 SECTION .text
 
@@ -44,6 +45,7 @@ SECTION .text
 	push r14
 	push r15
 %endmacro
+
 
 %macro popState 0
 	pop r15
@@ -77,6 +79,15 @@ SECTION .text
 	iretq
 %endmacro
 
+restore_stack:
+	mov [prevBS],rbx
+	pop rbx
+	call getStackBase
+	mov rsp,rax
+	push rbx
+	mov rbx,[prevBS]
+	ret
+
 
 
 %macro exceptionHandler 1
@@ -99,24 +110,7 @@ SECTION .text
 
 	mov rax, [rsp+15*8]
 	mov [regs+15*8], rax ;RIP
-	mov [regs+8], rbx
-	mov [regs+2*8], rcx
-	mov [regs+3*8], rdx
-	mov [regs+4*8], rsi
-	mov [regs+5*8], rdi
-	mov [regs+6*8], rbp
-	mov [regs+7*8], r8
-	mov [regs+8*8], r9
-	mov [regs+9*8], r10
-	mov [regs+10*8], r11
-	mov [regs+11*8], r12
-	mov [regs+12*8], r13
-	mov [regs+13*8], r14
-	mov [regs+14*8], r15
 
-	mov rax, [rsp+15*8]
-	mov [regs+15*8], rax ;RIP
-	
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX
 
@@ -124,8 +118,19 @@ SECTION .text
 	call exceptionDispatcher
 
 	popState
+
+
+	call getStackBase ; Me lo deja en RAX
+	mov [rsp+3*8], rax
+
+;--> STACK: RSPORIg : FLAGS : CS : RIP
+;           0         1       2    3
+;		  CALL BASE DEL STACK (CALL STACK BASE)
+
+	mov rax, 0x400000
+	mov [rsp], rax
 	iretq
-	
+
 %endmacro
 
 _int80Handler:
@@ -225,7 +230,7 @@ _irq01Handler:
 
 	;mov rax, [rsp+15*8]
 	;mov [regs], rax ;RIP
-	
+
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX
 
@@ -284,3 +289,6 @@ SECTION .bss
 
 section .bss
 regs resb 8*18	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
+prevBS 	resq 1
+
+

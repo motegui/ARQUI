@@ -53,9 +53,6 @@ void *initializeKernelBinary()
 int main()
 {
 	load_idt(); //setear la idt antes de que empiece a correr la terminal
-	//beep(300,5);
-	//save...
-	//restore_stack(); //garantiza que la pila este completamente restaurada antes de llamar a sampleCodeModuleAddress lo que garantiza que el codigo se ejecute usando la pila adecuada, y que los registros se restauren adecuadamente
 	((EntryPoint)sampleCodeModuleAddress)(); //llamo al main de sampleCodeModule's main address
 	return 0;
 

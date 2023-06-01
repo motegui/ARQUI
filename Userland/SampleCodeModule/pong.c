@@ -163,6 +163,22 @@ void pong(){
     sys_write("Press ENTER to play", WHITE);
     enter();
     sys_write("Press ESC to leave the game at any moment", WHITE);
+    enter();
+    sys_write("Instructions to play pong are: ",WHITE);
+    enter();
+    sys_write("The white ball will get automatically thrown onto the screen.",WHITE);
+    sys_write("To align with the incoming white ball,",WHITE);
+    sys_write("you will need to move the",WHITE);
+    enter();
+    sys_write("white paddles with: ",WHITE);
+    enter();
+    sys_write("'W,S' if you are player1 and 'O,L' if you are player 2",RED);
+    enter();
+    sys_write(" Finally, there is a scoreboard with each players points displayed above their side of the screen.",WHITE);
+
+
+
+
     while(1){
         key=getKey();
         if(key==ESC){
