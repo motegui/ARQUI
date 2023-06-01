@@ -19,6 +19,8 @@ GLOBAL _int80Handler
 GLOBAL _exception0Handler
 GLOBAL _exception6Handler
 
+GLOBAL regs
+
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN sysDispatcher
@@ -157,7 +159,56 @@ _irq00Handler:
 
 ;Keyboard
 _irq01Handler:
-	irqHandlerMaster 1
+	pushState
+	mov rax, 0
+	in al, 60h
+
+	; If the read scancode is "CTRL keydown", we do a register dump.
+	; Otherwise, we call keyboardIntHandler if the scancode isn't "CTRL keyup" (the CTRL key is used exclusively for regss)
+	cmp al, 1Dh
+	jne .continue
+
+	; We dump the registers from the stack into the regs vector
+;Order: "RIP", "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
+	mov [regs+8], rbx
+	mov [regs+2*8], rcx
+	mov [regs+3*8], rdx
+	mov [regs+4*8], rsi
+	mov [regs+5*8], rdi
+	mov [regs+6*8], rbp
+	mov [regs+7*8], r8
+	mov [regs+8*8], r9
+	mov [regs+9*8], r10
+	mov [regs+10*8], r11
+	mov [regs+11*8], r12
+	mov [regs+12*8], r13
+	mov [regs+13*8], r14
+	mov [regs+14*8], r15
+
+	;mov rax, [rsp+15*8]
+	;mov [regs], rax ;RIP
+	
+	mov rax, [rsp+14*8]
+	mov [regs], rax ;RAX
+
+	mov al, 1Dh
+	jmp .continue
+
+.continue:
+
+	; Call keyboardIntHandler with the read scancode as parameter.
+	mov rdi, 1
+	mov rsi, rax
+	call irqDispatcher
+
+.end:
+
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	popState
+	iretq
 
 ;Cascade pic never called
 _irq02Handler:
@@ -185,7 +236,6 @@ _exception6Handler:
 	exceptionHandler 6
 
 haltcpu:
-%endmacro
 	cli
 	hlt
 	ret
@@ -193,3 +243,6 @@ haltcpu:
 
 SECTION .bss
 	aux resq 1
+
+section .bss
+regs resb 8*18	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.

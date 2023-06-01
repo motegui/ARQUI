@@ -11,7 +11,6 @@ static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el
 static int front = 0;              // indica la posicion del primer elemento
 static int rear = 0;               // indica la posicion del ultimo elemento agregado
 static int cantElems = 0;
-extern char kbFlag();
 bool savedRegs = false; 
 
 char nextElement()// este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
@@ -37,9 +36,9 @@ int cantElements(){
     return cantElems;
 }
 
-void keyHandler()
+void keyHandler(uint64_t scancode)
 {
-    char tecla = kbFlag();
+    char tecla = scancode;
 
     if (tecla <= TECLA_LIMITE_SUPERIOR)
     {

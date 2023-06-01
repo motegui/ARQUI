@@ -43,11 +43,19 @@ testRegs:
 	mov rax, 2
 	mov rbx, 2
 	mov rcx, 2
+	mov rdx, 6
 	mov rsi, 8
 	mov rdi, 10
     mov r10, 10
-    mov r9, 5
+	mov r11, 11
+	mov r12, 12
+	mov r13, 13
+	mov r14, 14
+	mov r15, 15
+    mov r9, 9
     mov r8, 1000000000
+	mov rbp, 1
+	mov rdi, 1
 
 loop:
     sub r8, 1     ; Resta 1 del contador r8
