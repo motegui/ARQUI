@@ -10,7 +10,8 @@
 void outb(int memoryMap, int output);
 int inb(int memoryMap);
 
-void hold(int temp);
+//void hold(int temp);
+void sleepms(int mseconds);
 
  //Play sound using built in speaker
 void play_sound(int nFrequence) {
@@ -40,6 +41,6 @@ void nosound() {
  //Make a beep
  void beep(int frec, int time) {
 	play_sound(frec);
-	hold(time);
+	sleepms(time);
 	nosound();
  }

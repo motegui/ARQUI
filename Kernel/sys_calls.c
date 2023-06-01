@@ -49,7 +49,7 @@ void _8_beep(uint64_t frequency, uint64_t time, uint64_t r3, uint64_t r4, uint64
 }
 
 void _9_get_ticks(uint64_t  delta, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5) {
-     hold((int) delta);
+    sleepms ((int) delta);
 }
 
 void _10_put_pixel(uint64_t color, uint64_t x, uint64_t y, uint64_t r4, uint64_t r5){

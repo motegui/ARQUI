@@ -144,8 +144,8 @@ void pong(){
 
             lastDir[X]=8;
             lastDir[Y]=10;
-            
-        
+
+
             drawBar(barL);
             drawBar(barR);
             drawBall(ball, WHITE);
@@ -155,22 +155,22 @@ void pong(){
                 if(key=='W'){
                     moveUpBar(barL);
                     sys_get_clean_buffer();
-                    
+
                 }
                 if(key=='S'){
                     moveDownBar(barL);
                     sys_get_clean_buffer();
-                   
+
                 }
                 if(key=='O'){
                     moveUpBar(barR);
                     sys_get_clean_buffer();
-                    
+
                 }
                 if(key=='L'){
                     moveDownBar(barR);
                     sys_get_clean_buffer();
-                    
+
                 }
                 if(key==ESC){
                     sys_clear_screen();
@@ -195,7 +195,7 @@ void pong(){
                         sys_beep(300,5);
                         sys_get_ticks(30);
                     }
-                
+
                 }
                 if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
                         lastDir[X]=-lastDir[X];
@@ -209,12 +209,12 @@ void pong(){
                         sys_beep(300,5);
                         sys_get_ticks(30);
                     }
-                    
+
                 }
-                
+
 
                 moveBall(ball, lastDir[X], lastDir[Y]);
-                
+
             }
         }
     }

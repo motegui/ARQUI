@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <functions.h>
 #include <user_syscalls.h>
+#include <stdarg.h>
 
 
 //https://www.techiedelight.com/es/implement-strcmp-function-c/
@@ -13,12 +14,12 @@ int strcmp(char *X, char *Y)
         if (*X != *Y) {
             break;
         }
- 
+
         // pasar al siguiente par de caracteres
         X++;
         Y++;
     }
- 
+
     // devuelve la diferencia ASCII después de convertir `char*` a `unsigned char*`
     return *(const unsigned char*)X - *(const unsigned char*)Y;
 }
@@ -80,7 +81,7 @@ void deleteInitialFinalSpace(char * string){
         length--;
     }
 }
- 
+
  void intToString(int number, char *str)
 {
 	if (number == 0)

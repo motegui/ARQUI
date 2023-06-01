@@ -6,6 +6,11 @@
 #define PINK 0xFF69B4
 #define PURPLE 0xB070D0
 #define BLUE 0X007FFF
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
+
+#define LETTER_WIDTH 8
+#define LETTER_HEIGHT 16
 
 int strcmp(char *X, char *Y);
 void scanf(char * buffer, int bufferSize);
