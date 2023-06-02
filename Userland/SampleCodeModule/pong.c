@@ -13,6 +13,71 @@
 #define RADIO 2
 
 
+char numberMap[]={
+    //0
+    'S', 'S', 'S',
+    'S', '_', 'S', 
+    'S', '_', 'S', 
+    'S', '_', 'S',
+    'S', 'S', 'S', 
+    //1
+    'S', 'S', '_', 
+    '_', 'S', '_', 
+    '_', 'S', '_', 
+    '_', 'S', '_', 
+    'S', 'S', 'S',
+    //2
+    'S', 'S', 'S', 
+    '_', '_', 'S', 
+    'S', 'S', 'S', 
+    'S', '_', '_',
+    'S', 'S', 'S',
+    //3
+    'S', 'S', 'S',
+    '_', '_', 'S', 
+    'S', 'S', 'S', 
+    '_', '_', 'S',
+    'S', 'S', 'S', 
+    //4
+    'S', '_', 'S',
+    'S', '_', 'S', 
+    'S', 'S', 'S', 
+    '_', '_', 'S',
+    '_', '_', 'S', 
+    //5
+    'S', 'S', 'S',
+    'S', '_', '_', 
+    'S', 'S', 'S', 
+    '_', '_', 'S',
+    'S', 'S', 'S', 
+    //6
+    'S', 'S', 'S',
+    'S', '_', '_', 
+    'S', 'S', 'S', 
+    'S', '_', 'S',
+    'S', 'S', 'S',
+    //7
+    'S', 'S', 'S',
+    '_', '_', 'S', 
+    '_', '_', 'S', 
+    '_', '_', 'S',
+    '_', '_', 'S', 
+    //8
+    'S', 'S', 'S',
+    'S', '_', 'S', 
+    'S', 'S', 'S', 
+    'S', '_', 'S',
+    'S', 'S', 'S',
+    //9
+    'S', 'S', 'S',
+    'S', '_', 'S', 
+    'S', 'S', 'S', 
+    '_', '_', 'S',
+    '_', '_', 'S',
+};
+
+
+
 int widthScreen;
 int height;
 int width;
@@ -20,6 +85,24 @@ int top;
 int bottom;
 int left;
 int right;
+int square = 10;
+
+
+char * getNumber(int number){
+    return (numberMap + number*3*5);
+}
+
+void printNumber(int number, int x, int y) {
+    char *numMap = getNumber(number);
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (numMap[j + i * 3] == 'S') {
+                drawRectangle(x + j * square, y + i * square, square, square, WHITE);
+            }
+        }
+    }
+}
+
 
 
 
@@ -89,12 +172,13 @@ void drawBall(int *circle, int color) {
     }
 }
 
-void moveBall(int * ball, int x, int y){
+void moveBall(int * ball, int x, int y, int scores[]){
     drawBall(ball, BLACK);
     ball[X]=ball[X]+x;
     ball[Y]=ball[Y]+y;
     drawBall(ball, WHITE);
     drawDottedLine(widthScreen/2, top, bottom-top, 4);
+    updateScores(scores);
 }
 
 //izquierda es false, derecha es true
@@ -146,6 +230,41 @@ void nextMoveBall(int ball[], int lastDir[], int bar[], bool side){
     }
 }
 
+updateScores(int scores[]){
+    if(scores[1]/10>0){
+        printNumber(scores[1]/10, widthScreen/2+20, 50);
+        printNumber(scores[1]%10, widthScreen/2 + 30 + 3*square, 50);
+    }
+    if(scores[0]/10>0){
+        printNumber(scores[0]/10, widthScreen/2-30-6*square, 50);
+        printNumber(scores[0]%10, widthScreen/2-20-3*square, 50);
+    }
+    else{
+        printNumber(scores[1], widthScreen/2+20, 50);
+        printNumber(scores[0], widthScreen/2-20-3*square, 50);
+    }
+}
+
+drawScores(int scores[]){
+    drawRectangle(widthScreen/2+20, 50, 3*square, 5*square, BLACK);
+    drawRectangle(widthScreen/2-20-3*square, 50, 3*square, 5*square, BLACK);
+    if(scores[1]/10>0){
+        drawRectangle(widthScreen/2 + 30 + 3*square, 50, 3*square, 5*square, BLACK);
+        printNumber(scores[1]/10, widthScreen/2+20, 50);
+        printNumber(scores[1]%10, widthScreen/2 + 30 + 3*square, 50);
+    }
+    else{
+        printNumber(scores[1], widthScreen/2+20, 50);
+    }
+    if(scores[0]/10>0){
+        drawRectangle(widthScreen/2-30-6*square, 50, 3*square, 5*square, BLACK);
+        printNumber(scores[0]/10, widthScreen/2-30-6*square, 50);
+        printNumber(scores[0]%10, widthScreen/2-20-3*square, 50);
+    }
+    else{
+        printNumber(scores[0], widthScreen/2-20-3*square, 50);
+    }
+}
 
 
 void pong(){
@@ -159,6 +278,11 @@ void pong(){
     bottom = top + height;
     left = (widthScreen-width)/2;
     right = widthScreen-(widthScreen-width)/2;
+
+    int scores[2];
+
+    scores[0]=0;
+    scores[1]=0;
 
     sys_write("Press ENTER to play", WHITE);
     enter();
@@ -176,9 +300,6 @@ void pong(){
     enter();
     sys_write(" Finally, there is a scoreboard with each players points displayed above their side of the screen.",WHITE);
 
-
-
-
     while(1){
         key=getKey();
         if(key==ESC){
@@ -189,6 +310,7 @@ void pong(){
             sys_clear_screen();
             drawScreenBorders(top, bottom, left, right);
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
+            drawScores(scores);
 
             int barL[4]; //={left+20, top+100, 10, 50};
             int barR[4]; //={right-30, top+100, 10, 50};
@@ -243,19 +365,14 @@ void pong(){
                     sys_clear_screen();
                     return;
                 }
-                if(ball[Y]-ball[RADIO]+lastDir[Y]<top+1){
-                    lastDir[Y]=-lastDir[Y];
-                }
-
-                if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
-                    lastDir[Y]=-lastDir[Y];
-                }
                 if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
                     if(ball[Y]+ball[RADIO]>barR[Y] && ball[Y]-ball[RADIO]<barR[Y]+barR[HEIGHT]){
                         nextMoveBall(ball, lastDir, barR, true);
                         //choca en la barra derecha
                     }
                     else{
+                        scores[0]++;
+                        drawScores(scores);
                         lastDir[X]=-lastDir[X];
                         lastDir[Y]=-lastDir[Y];
                         drawBall(ball, BLACK);
@@ -272,6 +389,8 @@ void pong(){
                         //choca en la barra izquierda
                     }
                     else{
+                        scores[1]++;
+                        drawScores(scores);
                         lastDir[X]=-lastDir[X];
                         lastDir[Y]=-lastDir[Y];
                         drawBall(ball, BLACK);
@@ -282,9 +401,16 @@ void pong(){
                     }
 
                 }
+                if(ball[Y]-ball[RADIO]+lastDir[Y]<top+1){
+                    lastDir[Y]=-lastDir[Y];
+                }
+
+                if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
+                    lastDir[Y]=-lastDir[Y];
+                }
 
 
-                moveBall(ball, lastDir[X], lastDir[Y]);
+                moveBall(ball, lastDir[X], lastDir[Y], scores);
 
             }
         }
