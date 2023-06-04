@@ -157,16 +157,14 @@ void moveDownBar(int * bar){
 
 }
 
-//chatgpt
+//https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
 void drawBall(int *circle, int color) {
-    int x = circle[X];
-    int y = circle[Y];
     int r = circle[RADIO];
 
     for (int i = -r; i <= r; i++) {
         for (int j = -r; j <= r; j++) {
             if (i * i + j * j <= r * r) {
-                sys_put_pixel(color, x + i, y + j);
+                sys_put_pixel(color, circle[X] + i, circle[Y] + j);
             }
         }
     }
@@ -181,46 +179,46 @@ void moveBall(int * ball, int x, int y, int scores[]){
     updateScores(scores);
 }
 
-//izquierda es false, derecha es true
+//left is false, right is true
 void nextMoveBall(int ball[], int lastDir[], int bar[], bool side){
-    int cuadrant=bar[HEIGHT]/10;
+    int section=bar[HEIGHT]/10;
     int j=1;
     if(side){
         j=-1;
     }
-    if(ball[Y]<bar[Y]+cuadrant){
+    if(ball[Y]<bar[Y]+section){
         lastDir[X]=j*17;
         lastDir[Y]=-15;
     }
-    else if(ball[Y]<bar[Y]+2*cuadrant){
+    else if(ball[Y]<bar[Y]+2*section){
         lastDir[X]=j*17;
         lastDir[Y]=-12;
     }
-    else if(ball[Y]<bar[Y]+3*cuadrant){
+    else if(ball[Y]<bar[Y]+3*section){
         lastDir[X]=j*17;
         lastDir[Y]=-10;
     }
-    else if(ball[Y]<bar[Y]+4*cuadrant){
+    else if(ball[Y]<bar[Y]+4*section){
         lastDir[X]=j*17;
         lastDir[Y]=-5;
     }
-    else if(ball[Y]<bar[Y]+5*cuadrant){
+    else if(ball[Y]<bar[Y]+5*section){
         lastDir[X]=j*17;
         lastDir[Y]=-3;
     }
-    else if(ball[Y]<bar[Y]+6*cuadrant){
+    else if(ball[Y]<bar[Y]+6*section){
         lastDir[X]=j*17;
         lastDir[Y]=3;
     }
-    else if(ball[Y]<bar[Y]+7*cuadrant){
+    else if(ball[Y]<bar[Y]+7*section){
         lastDir[X]=j*17;
         lastDir[Y]=5;
     }
-    else if(ball[Y]<bar[Y]+9*cuadrant){
+    else if(ball[Y]<bar[Y]+9*section){
         lastDir[X]=j*17;
         lastDir[Y]=10;
     }
-    else if(ball[Y]<bar[Y]+9*cuadrant){
+    else if(ball[Y]<bar[Y]+9*section){
         lastDir[X]=j*7;
         lastDir[Y]=12;
     }
@@ -270,7 +268,6 @@ drawScores(int scores[]){
 void pong(){
     char key;
     sys_clear_screen();
-    //int widthScreen;
     sys_get_screen_width(&widthScreen);
     height = 500;
     width = 900;
@@ -279,26 +276,22 @@ void pong(){
     left = (widthScreen-width)/2;
     right = widthScreen-(widthScreen-width)/2;
 
-    int scores[2];
 
-    scores[0]=0;
-    scores[1]=0;
-
-    sys_write("Press ENTER to play", WHITE);
+    print("Press ENTER to play");
     enter();
-    sys_write("Press ESC to leave the game at any moment", WHITE);
+    print("Press ESC to leave the game at any moment");
     enter();
-    sys_write("Instructions to play pong are: ",WHITE);
+    print("Instructions to play pong are: ");
     enter();
-    sys_write("The white ball will get automatically thrown onto the screen.",WHITE);
-    sys_write("To align with the incoming white ball,",WHITE);
-    sys_write("you will need to move the",WHITE);
+    print("The white ball will get automatically thrown onto the screen.");
+    print("To align with the incoming white ball,");
+    print("you will need to move the");
     enter();
-    sys_write("white paddles with: ",WHITE);
+    print("white paddles with: ");
     enter();
     sys_write("'W,S' if you are player1 and 'O,L' if you are player 2",RED);
     enter();
-    sys_write(" Finally, there is a scoreboard with each players points displayed above their side of the screen.",WHITE);
+    print(" Finally, there is a scoreboard with each players points displayed above their side of the screen.");
 
     while(1){
         key=getKey();
@@ -310,12 +303,12 @@ void pong(){
             sys_clear_screen();
             drawScreenBorders(top, bottom, left, right);
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
-            drawScores(scores);
 
-            int barL[4]; //={left+20, top+100, 10, 50};
-            int barR[4]; //={right-30, top+100, 10, 50};
+            int barL[4]; 
+            int barR[4]; 
             int ball[3];
             int lastDir[2];
+            int scores[2];
 
             barL[X]=left+20;
             barL[Y]=top+100;
@@ -334,7 +327,10 @@ void pong(){
             lastDir[X]=20;
             lastDir[Y]=0;
 
+            scores[0]=0;
+            scores[1]=0;
 
+            drawScores(scores);
             drawBar(barL);
             drawBar(barR);
             drawBall(ball, WHITE);
@@ -361,14 +357,14 @@ void pong(){
                     sys_get_clean_buffer();
 
                 }
-                if(key==ESC){
-                    sys_clear_screen();
-                    return;
-                }
                 if(ball[X]+ball[RADIO]+lastDir[X]>barR[X]){
                     if(ball[Y]+ball[RADIO]>barR[Y] && ball[Y]-ball[RADIO]<barR[Y]+barR[HEIGHT]){
                         nextMoveBall(ball, lastDir, barR, true);
-                        //choca en la barra derecha
+                        //hits right bar
+                    }
+                    else if(scores[0]==99){
+                        key=ESC;
+                        scores[0]++;
                     }
                     else{
                         scores[0]++;
@@ -380,14 +376,18 @@ void pong(){
                         ball[Y]=(bottom-top)/2;
                         sys_beep(196,5);
                         sys_beep(220,5);
-                        sys_get_ticks(30);
+                        sys_get_ticks(50);
                     }
 
                 }
                 if(ball[X]-ball[RADIO]+lastDir[X]<barL[X]+barL[WIDTH]){
                     if(ball[Y]+ball[RADIO]>barL[Y] && ball[Y]-ball[RADIO]<barL[Y]+barL[HEIGHT]){
                         nextMoveBall(ball, lastDir, barL, false);
-                        //choca en la barra izquierda
+                        //hits left bar
+                    }
+                    else if(scores[1]==99){
+                        key=ESC;
+                        scores[1]++;
                     }
                     else{
                         scores[1]++;
@@ -400,7 +400,7 @@ void pong(){
                         sys_beep(196,5);
                         sys_beep(220,5);
 
-                        sys_get_ticks(30);
+                        sys_get_ticks(50);
                     }
 
                 }
@@ -410,6 +410,26 @@ void pong(){
 
                 if(ball[Y]+ball[RADIO]+lastDir[Y]>bottom){
                     lastDir[Y]=-lastDir[Y];
+                }
+
+                if(key==ESC){
+                    sys_clear_screen();
+                    if(scores[0]> scores[1]){
+                        print("Player 1 is the winner with ");
+                        sys_write_dec(scores[0], WHITE);
+                        print(" goals");
+                    }
+                    else if (scores[0] < scores[1]){
+                        print("Player 2 is the winner with ");
+                        sys_write_dec(scores[1], WHITE);
+                        print(" goals");
+                    }
+                    else{
+                        print("Its a tie");
+                    }
+                    sys_get_ticks(1000);
+                    sys_clear_screen();
+                    return;
                 }
 
 
