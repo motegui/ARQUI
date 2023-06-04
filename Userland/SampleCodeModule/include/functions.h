@@ -6,11 +6,6 @@
 #define PINK 0xFF69B4
 #define PURPLE 0xB070D0
 #define BLUE 0X007FFF
-#define SCREEN_WIDTH 1024
-#define SCREEN_HEIGHT 768
-
-#define LETTER_WIDTH 8
-#define LETTER_HEIGHT 16
 
 #include <stdint.h>
 
@@ -26,3 +21,4 @@ void printBase(uint64_t value, uint32_t base);
 void printHexa(uint64_t value);
 uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void fillHexa(int num, char* buf);
+void enter();

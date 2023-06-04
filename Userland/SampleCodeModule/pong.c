@@ -157,7 +157,7 @@ void moveDownBar(int * bar){
 
 }
 
-//https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
+//from https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
 void drawBall(int *circle, int color) {
     int r = circle[RADIO];
 

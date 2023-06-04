@@ -30,7 +30,7 @@ void addCero(char * buffer){
     char str_minutes[3];
     char str_seconds[3];
 
-    intToString(getFormat(hours), str_hours);
+    intToString(getFormat(hours)-3, str_hours);
     addCero(str_hours);
     sys_write(str_hours, color);
     sys_write(":", color);

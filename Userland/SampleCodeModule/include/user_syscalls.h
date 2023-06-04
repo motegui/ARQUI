@@ -15,15 +15,17 @@ void sys_get_seconds(int * sec);
 
 void sys_write_dec(int c, int color);
 
-void enter();
+void sys_new_line();
 
 void sys_beep(int freq, int time);
 
 void sys_get_ticks(int ticks);
+
 void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y);
 
 void sys_get_screen_width(int * width);
 
 void sys_get_clean_buffer();
+
 void sys_registers(uint64_t * registers, bool * isSaved);
 

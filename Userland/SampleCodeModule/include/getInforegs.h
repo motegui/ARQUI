@@ -2,4 +2,5 @@
 #define INFOREG_H_
 #include "functions.h"
 void getRegInfo();
+void regsTester();
 #endif

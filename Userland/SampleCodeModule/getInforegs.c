@@ -24,3 +24,42 @@ void getRegInfo() {
     
     
 }
+
+void regsTester(){
+    print("Registers should have the next values");
+	enter();
+	print("RAX:2");
+	enter();
+	print("RBX:2");
+	enter();
+	print("RCX:2");
+	enter();
+	print("RDX:6");
+	enter();
+	print("RSI:8");
+	enter();
+	print("RDI:1");
+	enter();
+	print("RBP:1");
+	enter();
+	print("R8:AN HEXA NUMBER");
+	enter();
+	print("R9:9");
+	enter();
+	print("R10:A");
+	enter();
+	print("R11:B");
+	enter();
+	print("R12:C");
+	enter();
+	print("R13:D");
+	enter();
+	print("R14:E");
+	enter();
+	print("R15:F");
+	enter();
+	print("Press 'CTRL' now");
+	enter();
+	testRegs();
+	enter();
+}

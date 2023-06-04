@@ -12,31 +12,31 @@ char buffer[BUFFER_SIZE];
 
 void help(){
 
-	sys_write("The available commands are:", WHITE);
+	print("The available commands are:");
 	enter();
 	sys_write("HELP", GREEN);
-	sys_write(": to get the information on the available commands", WHITE);
+	print(": to get the information on the available commands");
 	enter();
 	sys_write("TIME", GREEN);
-	sys_write(": to get the current time", WHITE);
+	print(": to get the current time");
 	enter();
 	sys_write("CLEAR", GREEN);
-	sys_write(": to clear the terminal", WHITE);
+	print(": to clear the terminal");
 	enter();
 	sys_write("PONG", GREEN);
-	sys_write(": to play game", WHITE);
+	print(": to play game");
 	enter();
 	sys_write("REGISTERS TEST", GREEN);
-	sys_write(": to check the correct loading of registers ", WHITE);
+	print(": to check the correct loading of registers ");
 	enter();
 	sys_write("REGISTERS", GREEN);
-	sys_write(": to print register status", WHITE);
+	print(": to print register status");
 	enter();
 	sys_write("DIVIDE BY ZERO", GREEN);
-	sys_write(": to trigger divide by zero exception", WHITE);
+	print(": to trigger divide by zero exception");
 	enter();
 	sys_write("INVALID OPERATION", GREEN);
-	sys_write(": to trigger invalid operation exception ", WHITE);
+	print(": to trigger invalid operation exception ");
 	enter();
 }
 
@@ -61,42 +61,7 @@ void command(char * entry){
 		enter();
 	}
 	else if(strcmp(buffer, "REGISTERS TEST")==0){
-		print("Registers should have the next values");
-		enter();
-		print("RAX:2");
-		enter();
-		print("RBX:2");
-		enter();
-		print("RCX:2");
-		enter();
-		print("RDX:6");
-		enter();
-		print("RSI:8");
-		enter();
-		print("RDI:1");
-		enter();
-		print("RBP:1");
-		enter();
-		print("R8:AN HEXA NUMBER");
-		enter();
-		print("R9:9");
-		enter();
-		print("R10:A");
-		enter();
-		print("R11:B");
-		enter();
-		print("R12:C");
-		enter();
-		print("R13:D");
-		enter();
-		print("R14:E");
-		enter();
-		print("R15:F");
-		enter();
-		print("Press 'CTRL' now");
-		enter();
-		testRegs();
-		enter();
+		regsTester();
 	}
 	else if(strcmp(buffer, "DIVIDE BY ZERO")==0){
 		divisionTester();

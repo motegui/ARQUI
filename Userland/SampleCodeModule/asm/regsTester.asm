@@ -57,9 +57,9 @@ testRegs:
 	mov rdi, 1
 
 loop:
-    sub r8, 1     ; Resta 1 del contador r8
+    sub r8, 1     ; Subtract 1 from counter r8
     cmp r8, 0
-    jne loop      ; Salta a 'loop' si r8 no es igual a cero
+    jne loop      ; Jumps to 'loop' if r8 is not equal to cero
 
     popState
 

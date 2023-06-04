@@ -27,7 +27,7 @@ void sys_get_seconds(int * sec){
     sys_int_80((uint64_t)5, (uint64_t)sec, 0, 0, 0,0);
 }
 
-void enter(){
+void sys_new_line(){
     sys_int_80((uint64_t)6, 0, 0, 0, 0, 0);
 }
 
@@ -54,6 +54,7 @@ void sys_get_screen_width(int * width){
 void sys_get_clean_buffer(){
     sys_int_80((uint64_t)12, 0, 0, 0, 0, 0);
 }
+
 void sys_registers(uint64_t * registers, bool * isSaved){
    sys_int_80((uint64_t)13,(uint64_t)registers, (uint64_t) isSaved, 0, 0, 0);
 }

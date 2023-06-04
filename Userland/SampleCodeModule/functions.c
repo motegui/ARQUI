@@ -3,25 +3,18 @@
 #include <user_syscalls.h>
 #include <stdarg.h>
 
-
-//https://www.techiedelight.com/es/implement-strcmp-function-c/
-// Función para implementar la función strcmp
-int strcmp(char *X, char *Y)
-{
-    while (*X)
-    {
-        // si los caracteres difieren o se llega al final de la segunda string
-        if (*X != *Y) {
-            break;
+int strcmp(char * x, char * y){
+    int i=0;
+    while(x[i] && y[i]){
+        if(x[i]>y[i]){
+            return 1;
         }
-
-        // pasar al siguiente par de caracteres
-        X++;
-        Y++;
+        else if(x[i]<y[i]){
+            return -1;
+        }
+        i++;
     }
-
-    // devuelve la diferencia ASCII después de convertir `char*` a `unsigned char*`
-    return *(const unsigned char*)X - *(const unsigned char*)Y;
+    return x[i]-y[i];
 }
 
 void scanf(char * buffer, int bufferSize){
@@ -141,7 +134,7 @@ void printHexa(uint64_t value){
     print(buf);
 }
 
-//la sacamos de naiveConsole
+//from naiveConsole
 uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
     char *p = buffer;
     char *p1, *p2;
@@ -173,7 +166,7 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
     return digits;
 }
 
-void fillHexa(int num, char* buf){ //para llenar los 0 de los hexa
+void fillHexa(int num, char* buf){ //to fill with 0 the hexa
     for(int i = 15; i >= 0; i--){
         if(i >= num){
             buf[i] = buf[i-num];
@@ -182,4 +175,9 @@ void fillHexa(int num, char* buf){ //para llenar los 0 de los hexa
         }
     }
     buf[16] = '\0';
+}
+
+
+void enter(){
+    sys_new_line();
 }
