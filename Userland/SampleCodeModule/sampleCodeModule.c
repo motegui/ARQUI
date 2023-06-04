@@ -1,6 +1,6 @@
 /* sampleCodeModule.c */
 #include <stdint.h>
-#include <time_driver.h>
+#include <time.h>
 #include <user_syscalls.h>
 #include <functions.h>
 #include <exceptionTester.h>
@@ -72,7 +72,6 @@ void command(char * entry){
 	
 	}
 	else{
-		print(buffer);
 		print("Invalid command");
 		enter();
 		help();

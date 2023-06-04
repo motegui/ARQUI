@@ -12,7 +12,7 @@ extern int getMinutes();
 extern int getSeconds();
 
 
-typedef int64_t (*syscallT) (uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+typedef int64_t (*syscall) (uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 
 
 void _0_empty(uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
@@ -78,25 +78,25 @@ void _13_save_registers(uint64_t registers, uint64_t isSaved, uint64_t r3, uint6
             ((uint64_t *) registers)[i] = regs[i];
     }
 }
-static syscallT syscalls[]  = {
-    (syscallT) _0_empty,
-    (syscallT) _1_write,
-    (syscallT) _2_read,
-    (syscallT) _3_getHours,
-    (syscallT) _4_getMinutes,
-    (syscallT) _5_getSeconds,
-    (syscallT) _6_newLine,
-    (syscallT) _7_write_dec,
-    (syscallT) _8_beep,
-    (syscallT) _9_get_ticks,
-    (syscallT) _10_put_pixel,
-    (syscallT) _11_get_screen_width,
-    (syscallT) _12_clean_buffer,
-    (syscallT) _13_save_registers
+static syscall syscalls[]  = {
+    (syscall) _0_empty,
+    (syscall) _1_write,
+    (syscall) _2_read,
+    (syscall) _3_getHours,
+    (syscall) _4_getMinutes,
+    (syscall) _5_getSeconds,
+    (syscall) _6_newLine,
+    (syscall) _7_write_dec,
+    (syscall) _8_beep,
+    (syscall) _9_get_ticks,
+    (syscall) _10_put_pixel,
+    (syscall) _11_get_screen_width,
+    (syscall) _12_clean_buffer,
+    (syscall) _13_save_registers
 };
 
-int64_t sysDispatcher(uint64_t syscall, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
-    return syscalls[syscall](r1, r2, r3, r4, r5);
+int64_t sysDispatcher(uint64_t syscallNumber, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){
+    return syscalls[syscallNumber](r1, r2, r3, r4, r5);
 }
 
 

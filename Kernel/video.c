@@ -68,7 +68,7 @@ void copyPixel(uint32_t new_x, uint32_t new_y, uint32_t old_x, uint32_t old_y){
 
 void putLetter(int caracter, uint32_t x, uint32_t y, int color)
 {
-	unsigned char *bitMap = charBitmap(caracter);
+	unsigned char *bitMap = charMap(caracter);
 	for (int j = 0; j < CHAR_HEIGHT; j++)
 	{
 		for (int i = 0; i < CHAR_WIDTH; i++)
@@ -190,7 +190,7 @@ void putLetterNext(int caracter, int color)
     {
         moveUpScreen();
     }
-	unsigned char *bitMap = charBitmap(caracter);
+	unsigned char *bitMap = charMap(caracter);
 	for (int j = 0; j < CHAR_HEIGHT; j++)
 	{
 		for (int i = 0; i < CHAR_WIDTH; i++)
