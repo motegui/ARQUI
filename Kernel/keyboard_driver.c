@@ -7,13 +7,13 @@
 #define TECLA_LIMITE_SUPERIOR 90
 #define CONTROL 0x1D
 
-static char buff[BUFF_SIZE] = {0}; // este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
-static int front = 0;              // indica la posicion del primer elemento
-static int rear = 0;               // indica la posicion del ultimo elemento agregado
+static char buff[BUFF_SIZE] = {0}; // Circular vector. When buff reaches max capacity older elements are overwritten. Keyboard buffer 
+static int front = 0;              // Position of the first element
+static int rear = 0;               // Position of last added element
 static int cantElems = 0;
 bool savedRegs = false; 
 
-char nextElement()// este va a ser mi vector circular(cuando el buff alcanza su max capacidad, los nuevos elementos sobreescriben los que estan en las posiciones mas antiguas), y este lo usamos como un buffer de teclado
+char nextElement()// Circular vector. When buff reaches max capacity older elements are overwritten.
 
 {
 
@@ -57,7 +57,7 @@ void keyHandler(uint64_t scancode)
             return;
         }
     
-       // los dos if de abajo son necesarios para mantener el funcionamiento circular del buffer
+       // Both ifs are necessary to maintain buffer circularity
         if (rear == BUFF_SIZE)
             rear = 0;
         if (front == BUFF_SIZE)

@@ -32,8 +32,8 @@ void clearBSS(void *bssAddress, uint64_t bssSize)
 
 void *getStackBase()
 {
-	return (void *)((uint64_t)&endOfKernel + PageSize * 8 // The size of the stack itself, 32KiB
-					- sizeof(uint64_t)					  // Begin at the top of the stack
+	return (void *)((uint64_t)&endOfKernel + PageSize * 8 // Size of the stack (32KiB)
+					- sizeof(uint64_t)					  // Starts at the top of the stack
 	);
 }
 
@@ -50,8 +50,8 @@ void *initializeKernelBinary()
 
 int main()
 {
-	load_idt(); //setear la idt antes de que empiece a correr la terminal
-	((EntryPoint)sampleCodeModuleAddress)(); //llamo al main de sampleCodeModule's main address
+	load_idt(); //sets the IDT before the terminal launches
+	((EntryPoint)sampleCodeModuleAddress)(); //calls sampleCodeModule main address
 	return 0;
 
 

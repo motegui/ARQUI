@@ -4,7 +4,6 @@
 void timer_handler();
 int ticks_elapsed();
 int seconds_elapsed();
-//void hold(int delta);
 void sleepms(int mseconds);
 
 #endif

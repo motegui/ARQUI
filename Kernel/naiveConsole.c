@@ -53,7 +53,6 @@ void ncPrintBin(uint64_t value)
 void ncPrintBase(uint64_t value, uint32_t base)
 {
     uintToBase(value, buffer, base);
-    //ncPrint(buffer,WHITE,RED);
 }
 
 void ncClear()
@@ -63,15 +62,6 @@ void ncClear()
 	for (i = 0; i < height * width; i++)
 		video[i * 2] = ' ';
 	currentVideo = video;
-}
-
-void ncBackspace(){
-    if (currentVideo > video) { // Verificar si hay caracteres para borrar
-		currentVideo-=2;
-		ncPrint(" ",BLACK,BLACK);
-		currentVideo -=2;
-    }
-
 }
 
 

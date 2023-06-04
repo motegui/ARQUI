@@ -40,7 +40,6 @@ void exceptionDispatcher(void * excepCode){
 	}
 	printError("--RESTARTING--");
 	putLine();
-	//reset();
 }
 
 void zeroException(){

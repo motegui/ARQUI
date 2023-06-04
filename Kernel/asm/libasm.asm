@@ -9,8 +9,6 @@ GLOBAL inb
 
 section .text
 
-
-
 cpuVendor:
 	push rbp
 	mov rbp, rsp
@@ -34,7 +32,6 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
-    
 
 getSeconds:
     push rbp
@@ -45,6 +42,7 @@ getSeconds:
     mov rsp, rbp
     pop rbp
     ret
+
 getMinutes:
     push rbp
     mov rbp,rsp
@@ -54,6 +52,7 @@ getMinutes:
     mov rsp, rbp
     pop rbp
     ret
+
 getHours:
     push rbp
     mov rbp, rsp

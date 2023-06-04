@@ -21,5 +21,5 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void fillHexa(int num, char* buf);
 void printHexa(uint64_t value);
 int getWidth();
-
+void printError(char * string);
 void clearScreen();

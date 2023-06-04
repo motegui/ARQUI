@@ -1,6 +1,9 @@
 #include <video.h>
+#include <font.h>
+
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
+
 static int pointer_x = 3;
 static int pointer_y = 3;
 struct vbe_mode_info_structure
@@ -76,8 +79,8 @@ void putLetter(int caracter, uint32_t x, uint32_t y, int color)
 			uint8_t bit = ((bitMap[j]) >> i) & 0x01;
 			if (bit == 1)
 			{
-				// Llamar a putPixel cuando el bit es 1
-				putPixel(color, x + 7 - i, j + y); // Ejemplo: Establecer el píxel en rojo en la fila 0
+				//Call putPixel when bit is 1
+				putPixel(color, x + 7 - i, j + y); //For instance, put red pixel in row 0
 			}
 		}
 	}
@@ -102,20 +105,20 @@ void putArray(char *array, uint32_t x, uint32_t y, int color)
 
 void moveUpScreen()
 {
-    // Iterar desde el segundo renglón hasta el último
+    //Iterate from second line to last
     for (int y = 0; y < VBE_mode_info->height - CHAR_HEIGHT; y++)
     {
-        // Copiar cada píxel del renglón siguiente al renglón actual
+        //Copy each pixel in the following line
         for (int x = 0; x < VBE_mode_info->width ; x++)
         {
             copyPixel(x, y , x, y + CHAR_HEIGHT);
         }
     }
 
-	// Iterar desde el segundo renglón hasta el último
+	//Iterate from second line to last
     for (int y = VBE_mode_info->height - CHAR_HEIGHT; y < VBE_mode_info->height; y++)
     {
-        // Copiar cada píxel del renglón siguiente al renglón actual
+        //Copy each pixel from following line to the current one
         for (int x = 0; x < VBE_mode_info->width ; x++)
         {
             putPixel(BLACK, x, y);
@@ -129,7 +132,7 @@ void moveUpScreen()
 void clearScreen(){
 	for (int y = 0; y < VBE_mode_info->height; y++)
     {
-        // Copiar cada píxel del renglón siguiente al renglón actual
+        //Copy each pixel from following line to current line
         for (int x = 0; x < VBE_mode_info->width ; x++)
         {
             putPixel(BLACK, x, y);
@@ -140,7 +143,7 @@ void clearScreen(){
 }
 
 
-void intToString(int number, char *str)
+void intToString(int number, char str[])
 {
 	if (number == 0)
 	{
@@ -170,10 +173,29 @@ void intToString(int number, char *str)
 }
 void putDec(int number, uint32_t x, uint32_t y, int color)
 {
-	char *strNumber[20];
+	char strNumber[20];
 	intToString(number, strNumber);
 	putArray(strNumber, x, y, color);
 }
+
+void putBackspace()
+{
+	if (pointer_x == 0 && pointer_y == 0)
+		return;
+	pointer_x = pointer_x - CHAR_WIDTH;
+	for (int j = 0; j < CHAR_HEIGHT; j++)
+	{
+		for (int i = 0; i < CHAR_WIDTH; i++)
+		{
+			putPixel(0x000000, pointer_x + 7 - i, j + pointer_y);
+		}
+	}
+	if (pointer_x < 0 && pointer_y > 0) {
+		pointer_x = VBE_mode_info->width - CHAR_WIDTH;
+		pointer_y = (pointer_y >= CHAR_HEIGHT) ? pointer_y - CHAR_HEIGHT : 0;
+	}
+}
+
 void putLetterNext(int caracter, int color)
 {
 	if (caracter == '\b')
@@ -198,30 +220,14 @@ void putLetterNext(int caracter, int color)
 			uint8_t bit = ((bitMap[j]) >> i) & 0x01;
 			if (bit == 1)
 			{
-				// Llamar a putPixel cuando el bit es 1
-				putPixel(color, pointer_x + 7 - i, j + pointer_y); // Ejemplo: Establecer el píxel en rojo en la fila 0
+				//Call putPixel when bit is 1
+				putPixel(color, pointer_x + 7 - i, j + pointer_y);
 			}
 		}
 	}
 	pointer_x = pointer_x + CHAR_WIDTH;
 }
-void putBackspace()
-{
-	if (pointer_x == 0 && pointer_y == 0)
-		return;
-	pointer_x = pointer_x - CHAR_WIDTH;
-	for (int j = 0; j < CHAR_HEIGHT; j++)
-	{
-		for (int i = 0; i < CHAR_WIDTH; i++)
-		{
-			putPixel(0x000000, pointer_x + 7 - i, j + pointer_y); // Ejemplo: Establecer el píxel en rojo en la fila 0
-		}
-	}
-	if (pointer_x < 0 && pointer_y > 0) {
-		pointer_x = VBE_mode_info->width - CHAR_WIDTH;
-		pointer_y = (pointer_y >= CHAR_HEIGHT) ? pointer_y - CHAR_HEIGHT : 0;
-	}
-}
+
 void putArrayNext(char *array, int color)
 {
 	int i = 0;
@@ -250,7 +256,7 @@ void putLine()
 void printError(char * string){
 	int i = 0;
 	while(string[i] != '\0'){
-		putLetterNext(string[i], 0xFF0000);
+		putLetterNext(string[i], RED);
 		i++;
 	}
 	putLetterNext('\n', WHITE);

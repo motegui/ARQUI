@@ -68,7 +68,7 @@ SECTION .text
 %macro irqHandlerMaster 1
 	pushState
 
-	mov rdi, %1 ; pasaje de parametro
+	mov rdi, %1 ; passes parameter
 	call irqDispatcher
 
 	; signal pic EOI (End of Interrupt)
@@ -87,8 +87,6 @@ restore_stack:
 	push rbx
 	mov rbx,[prevBS]
 	ret
-
-
 
 %macro exceptionHandler 1
 	pushState
@@ -114,13 +112,13 @@ restore_stack:
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX
 
-	mov rdi, %1 ; pasaje de parametro
+	mov rdi, %1 ; passing parameter
 	call exceptionDispatcher
 
 	popState
 
 
-	call getStackBase ; Me lo deja en RAX
+	call getStackBase ; Leaves result in RAX
 	mov [rsp+3*8], rax
 
 ;--> STACK: RSPORIg : FLAGS : CS : RIP
@@ -190,13 +188,13 @@ picMasterMask:
 picSlaveMask:
 	push    rbp
     mov     rbp, rsp
-    mov     ax, di  ; ax = mascara de 16 bits
+    mov     ax, di  ; ax = 16 bit mask
     out	0A1h,al
     pop     rbp
     retn
 
 
-;8254 Timer (Timer Tick)
+;Timer Tick
 _irq00Handler:
 	irqHandlerMaster 0
 
@@ -206,13 +204,11 @@ _irq01Handler:
 	mov rax, 0
 	in al, 60h
 
-	; If the read scancode is "CTRL keydown", we do a register dump.
-	; Otherwise, we call keyboardIntHandler if the scancode isn't "CTRL keyup" (the CTRL key is used exclusively for regss)
+	;1Dh is the scancode for CTRL
 	cmp al, 1Dh
 	jne .continue
 
-	; We dump the registers from the stack into the regs vector
-;Order: "RIP", "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
+	;Order: "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
 	mov [regs+8], rbx
 	mov [regs+2*8], rcx
 	mov [regs+3*8], rdx
@@ -228,9 +224,6 @@ _irq01Handler:
 	mov [regs+13*8], r14
 	mov [regs+14*8], r15
 
-	;mov rax, [rsp+15*8]
-	;mov [regs], rax ;RIP
-
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX
 
@@ -239,7 +232,7 @@ _irq01Handler:
 
 .continue:
 
-	; Call keyboardIntHandler with the read scancode as parameter.
+	; the parameter is the scancode
 	mov rdi, 1
 	mov rsi, rax
 	call irqDispatcher
@@ -288,7 +281,7 @@ SECTION .bss
 	aux resq 1
 
 section .bss
-regs resb 8*18	 ;Arquitectura x86-64. Cada registro general tiene un tamaño de 8 bytes.
+regs resb 8*18	 ;x86-64. Each register has 8 bytes.
 prevBS 	resq 1
 
 

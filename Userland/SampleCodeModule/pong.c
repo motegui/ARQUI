@@ -87,6 +87,13 @@ int left;
 int right;
 int square = 10;
 
+void drawRectangle(int x, int y, int sizex, int sizey, int color){
+    for(int i = 0; i<sizex; i++){
+        for(int j=0; j< sizey; j++){
+            sys_put_pixel(color, i+x, j+y);
+        }
+    }
+}
 
 char * getNumber(int number){
     return (numberMap + number*3*5);
@@ -103,9 +110,6 @@ void printNumber(int number, int x, int y) {
     }
 }
 
-
-
-
 void drawScreenBorders(int starty, int endy, int startx, int endx){
     for (int x = startx; x<= endx; x++){
         sys_put_pixel(WHITE, x, starty);
@@ -118,21 +122,11 @@ void drawScreenBorders(int starty, int endy, int startx, int endx){
     }
 }
 
-void drawRectangle(int x, int y, int sizex, int sizey, int color){
-    for(int i = 0; i<sizex; i++){
-        for(int j=0; j< sizey; j++){
-            sys_put_pixel(color, i+x, j+y);
-        }
-    }
-}
-
 void drawDottedLine(int x, int y, int length, int size){
     for(int i=0; i<length; i+=size*2){
         drawRectangle(x-size/2, i+y, size, size, WHITE);
     }
 }
-
-
 
 void drawBar(int * bar){
     drawRectangle(bar[X], bar[Y], bar[WIDTH], bar[HEIGHT], WHITE);
@@ -157,7 +151,21 @@ void moveDownBar(int * bar){
 
 }
 
-//from https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
+void updateScores(int scores[]){
+    if(scores[1]/10>0){
+        printNumber(scores[1]/10, widthScreen/2+20, 50);
+        printNumber(scores[1]%10, widthScreen/2 + 30 + 3*square, 50);
+    }
+    if(scores[0]/10>0){
+        printNumber(scores[0]/10, widthScreen/2-30-6*square, 50);
+        printNumber(scores[0]%10, widthScreen/2-20-3*square, 50);
+    }
+    else{
+        printNumber(scores[1], widthScreen/2+20, 50);
+        printNumber(scores[0], widthScreen/2-20-3*square, 50);
+    }
+}
+
 void drawBall(int *circle, int color) {
     int r = circle[RADIO];
 
@@ -228,22 +236,7 @@ void nextMoveBall(int ball[], int lastDir[], int bar[], bool side){
     }
 }
 
-updateScores(int scores[]){
-    if(scores[1]/10>0){
-        printNumber(scores[1]/10, widthScreen/2+20, 50);
-        printNumber(scores[1]%10, widthScreen/2 + 30 + 3*square, 50);
-    }
-    if(scores[0]/10>0){
-        printNumber(scores[0]/10, widthScreen/2-30-6*square, 50);
-        printNumber(scores[0]%10, widthScreen/2-20-3*square, 50);
-    }
-    else{
-        printNumber(scores[1], widthScreen/2+20, 50);
-        printNumber(scores[0], widthScreen/2-20-3*square, 50);
-    }
-}
-
-drawScores(int scores[]){
+void drawScores(int scores[]){
     drawRectangle(widthScreen/2+20, 50, 3*square, 5*square, BLACK);
     drawRectangle(widthScreen/2-20-3*square, 50, 3*square, 5*square, BLACK);
     if(scores[1]/10>0){

@@ -4,8 +4,10 @@
 #include <user_syscalls.h>
 #include <functions.h>
 #include <exceptionTester.h>
+#include <pong.h>
+#include <getInfoRegs.h>
 
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 100
 
 
 char buffer[BUFFER_SIZE];
@@ -58,14 +60,12 @@ void command(char * entry){
 	}
 	else if(strcmp(buffer, "REGISTERS")==0){
 		getRegInfo();
-		enter();
 	}
 	else if(strcmp(buffer, "REGISTERS TEST")==0){
 		regsTester();
 	}
 	else if(strcmp(buffer, "DIVIDE BY ZERO")==0){
 		divisionTester();
-	
 	}
 	else if(strcmp(buffer, "INVALID OPERATION")==0){
 		invalidOpTester();
@@ -75,7 +75,6 @@ void command(char * entry){
 		print("Invalid command");
 		enter();
 		help();
-		enter();
 	}
 }
 

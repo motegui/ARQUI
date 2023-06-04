@@ -10,7 +10,6 @@
 void outb(int memoryMap, int output);
 int inb(int memoryMap);
 
-//void hold(int temp);
 void sleepms(int mseconds);
 
  //Play sound using built in speaker

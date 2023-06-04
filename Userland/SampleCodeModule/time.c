@@ -21,7 +21,7 @@ void addCero(char * buffer){
 
  void getTime(int color)
 {
-    sys_write("HORA: ", color);
+    sys_write("TIME: ", color);
     int hours, minutes, seconds;
     sys_get_hours(&hours);
     sys_get_minutes(&minutes);

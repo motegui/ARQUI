@@ -4,6 +4,8 @@
  #include <keyboard_driver.h>
  #include <lib.h>
  #include <stdbool.h>
+ #include <sound.h>
+ #include <time.h>
 
 extern const uint64_t regs[18];
 

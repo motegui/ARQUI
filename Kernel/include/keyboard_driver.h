@@ -1,6 +1,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+char nextElement();
+void keyHandler(uint64_t scancode);
+int cantElements();
+bool isRegsSaved();
+void cleanBuffer();
+
 static const char keyBoardTable[256] =
     {
           0,27,'1',  '2',  '3',  '4',  '5',  '6',   '7',  '8',
@@ -17,8 +23,3 @@ static const char keyBoardTable[256] =
             // 4: up arrow
             // 5: down arrow 
 };
-
-char nextElement();
-void keyHandler(uint64_t scancode);
-int cantElements();
-bool isRegsSaved();
