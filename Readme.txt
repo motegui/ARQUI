@@ -1,31 +1,17 @@
-x64BareBones is a basic setup to develop operating systems for the Intel 64 bits architecture.
+El trabajo se basa en el setup x64BareBones disponible en https://bitbucket.org/RowDaBoat/x64barebones/
 
-The final goal of the project is to provide an entry point for a kernel and the possibility to load extra binary modules separated from the main kernel.
+1- Instalar los siguientes paquetes antes de compilar el proyecto
+  nasm qemu gcc make
 
-Environment setup:
-1- Install the following packages before building the Toolchain and Kernel:
+2- Instalar Docker para la compilación y descargar la imagen a utilizar
 
-nasm qemu gcc make
+3- Suponiendo que se descargó la imagen mediante el siguiente comando
+  docker pull agodio/itba-so:1.0
+  Crear un contenedor de Docker ejecutando la instrucción a continuación
+  docker run -d -v ${PWD}:/root --security-opt seccomp:unconfined -ti --name tpearqui agodio/itba-so:1.0
+  
+4- Correr el script.sh desde la terminal o, en su defecto, los comandos contenidos en él
+  ./script.sh
 
-2- Build the Toolchain
-
-Execute the following commands on the x64BareBones project directory:
-
-  user@linux:$ cd Toolchain
-  user@linux:$ make all
-
-3- Build the Kernel
-
-From the x64BareBones project directory run:
-
-  user@linux:$ make all
-
-4- Run the kernel
-
-From the x64BareBones project directory run:
-
-  user@linux:$ ./run.sh
-
-
-Author: Rodrigo Rearden (RowDaBoat)
-Collaborator: Augusto Nizzo McIntosh
+5- Finalmente, ejecutar el siguiente comando para correr el proyecto desde qemu
+  ./run.sh
