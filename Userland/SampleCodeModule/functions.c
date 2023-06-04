@@ -53,6 +53,26 @@ char getChar(){
     return key[0];
 }
 
+void deleteExtraSpaces(char * string){
+    deleteInitialFinalSpace(string);
+    int j=0;
+    for(int i=0; string[i]!='\0'; i++){
+        if(string[i]==' '){
+            while(string[i+j]==' '){
+                j++;
+            }
+            if(j>1){
+                int k=1;
+                for(; string[j]!='\0'; j++, k++){
+                    string[i+k]=string[i+j];
+                }
+                string[i+k]='\0';
+            }
+            j=0;
+        }
+    }
+}
+
 void deleteInitialFinalSpace(char * string){
     int i=0;
     while(string[i]==' '){

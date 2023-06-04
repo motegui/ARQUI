@@ -42,7 +42,7 @@ void help(){
 
 
 void command(char * entry){
-	deleteInitialFinalSpace(buffer);
+	deleteExtraSpaces(buffer);
 	if(strcmp(buffer, "TIME")==0){
 			getTime(WHITE);
 			enter();
@@ -72,7 +72,8 @@ void command(char * entry){
 	
 	}
 	else{
-		sys_write("Invalid command", WHITE);
+		print(buffer);
+		print("Invalid command");
 		enter();
 		help();
 		enter();
