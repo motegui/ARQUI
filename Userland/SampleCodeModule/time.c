@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <time_driver.h>
+#include <time.h>
 #include <user_syscalls.h>
 #include <functions.h>
 

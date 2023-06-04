@@ -19,7 +19,7 @@ void sys_new_line();
 
 void sys_beep(int freq, int time);
 
-void sys_get_ticks(int ticks);
+void sys_sleep(int ms);
 
 void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y);
 

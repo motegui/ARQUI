@@ -47,9 +47,7 @@ void *initializeKernelBinary()
 	clearBSS(&bss, &endOfKernel - &bss);
 	return getStackBase();
 }
-// uint8_t r = 0;
-// uint8_t g = 0;
-// uint8_t b = 255;
+
 int main()
 {
 	load_idt(); //setear la idt antes de que empiece a correr la terminal

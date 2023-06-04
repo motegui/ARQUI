@@ -39,8 +39,8 @@ void sys_beep(int freq, int time){
     sys_int_80((uint64_t)8,(uint64_t)freq,(uint64_t)time,0,0,0);
 }
  
-void sys_get_ticks(int ticks) {
-     sys_int_80((uint64_t)9, (uint64_t)ticks, 0, 0, 0, 0);
+void sys_sleep(int ms) {
+     sys_int_80((uint64_t)9, (uint64_t)ms, 0, 0, 0, 0);
 }
 
 void sys_put_pixel(uint32_t color, uint32_t x, uint32_t y){

@@ -335,7 +335,7 @@ void pong(){
             drawBar(barR);
             drawBall(ball, WHITE);
             while(1){
-                sys_get_ticks(1);
+                sys_sleep(1);
                 key=getKey();
                 if(key=='W'){
                     moveUpBar(barL);
@@ -376,7 +376,7 @@ void pong(){
                         ball[Y]=(bottom-top)/2;
                         sys_beep(196,5);
                         sys_beep(220,5);
-                        sys_get_ticks(50);
+                        sys_sleep(50);
                     }
 
                 }
@@ -400,7 +400,7 @@ void pong(){
                         sys_beep(196,5);
                         sys_beep(220,5);
 
-                        sys_get_ticks(50);
+                        sys_sleep(50);
                     }
 
                 }
@@ -427,7 +427,7 @@ void pong(){
                     else{
                         print("Its a tie");
                     }
-                    sys_get_ticks(1000);
+                    sys_sleep(1000);
                     sys_clear_screen();
                     return;
                 }
