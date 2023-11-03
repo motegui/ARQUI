@@ -2,7 +2,7 @@
 #include <functions.h>
 #include <user_syscalls.h>
 #include <stdarg.h>
- int charSize = 1;
+ static int charSize = 1;
 int strcmp(char * x, char * y){
     int i=0;
     while(x[i] && y[i]){
@@ -176,6 +176,7 @@ void printHexa(uint64_t value){
     fillHexa(16-digits, buf);
     print(buf);
 }
+
 
 //from naiveConsole
 uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
