@@ -10,4 +10,6 @@
 #Object files
 *.o
 
+*.elf
+
 start_docker.sh
