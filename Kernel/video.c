@@ -3,7 +3,7 @@
 
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
-
+ int INITIAL_FONT_SIZE = 1;
 static int pointer_x = 3;
 static int pointer_y = 3;
 struct vbe_mode_info_structure
@@ -295,7 +295,7 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
     return digits;
 }
 
-void fillHexa(int num, char* buf){ 
+void fillHexa(int num, char* buf){
     for(int i = 15; i >= 0; i--){
         if(i >= num){
             buf[i] = buf[i-num];
@@ -315,6 +315,9 @@ void printHexa(uint64_t value){
 		putLetterNext(buf[i], WHITE);
 		i++;
 	}
+}
+void set_default_fontSize(int size) {
+   INITIAL_FONT_SIZE = size;
 }
 
 

@@ -5,6 +5,7 @@
 #include <functions.h>
 #include <exceptionTester.h>
 #include <pong.h>
+#include <lettersize.h>
 #include <getInfoRegs.h>
 
 #define BUFFER_SIZE 100
@@ -30,6 +31,9 @@ void help(){
 	enter();
 	sys_write("REGISTERS TEST", GREEN);
 	print(": to check the correct loading of registers ");
+	enter();
+	sys_write("LETTER SIZE", GREEN);
+	print(": to change the size of the letters");
 	enter();
 	sys_write("REGISTERS", GREEN);
 	print(": to print register status");
@@ -58,6 +62,9 @@ void command(char * entry){
 	else if(strcmp(buffer, "PONG")==0){
 		pong();
 	}
+	else if(strcmp(buffer, "LETTER SIZE")==0){
+		lettersize();
+	}
 	else if(strcmp(buffer, "REGISTERS")==0){
 		getRegInfo();
 	}
@@ -69,7 +76,7 @@ void command(char * entry){
 	}
 	else if(strcmp(buffer, "INVALID OPERATION")==0){
 		invalidOpTester();
-	
+
 	}
 	else{
 		print("Invalid command");

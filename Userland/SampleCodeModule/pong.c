@@ -297,8 +297,8 @@ void pong(){
             drawScreenBorders(top, bottom, left, right);
             drawDottedLine(widthScreen/2, top, bottom-top, 4);
 
-            int barL[4]; 
-            int barR[4]; 
+            int barL[4];
+            int barR[4];
             int ball[3];
             int lastDir[2];
             int scores[2];

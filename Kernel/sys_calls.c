@@ -80,6 +80,12 @@ void _13_save_registers(uint64_t registers, uint64_t isSaved, uint64_t r3, uint6
             ((uint64_t *) registers)[i] = regs[i];
     }
 }
+void _14_set_font_size(uint64_t size, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5) {
+    set_default_fontSize(size);
+}
+void _15_get_ticks(uint64_t  delta, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5) {
+    hold((int) delta);
+}
 static syscall syscalls[]  = {
     (syscall) _0_empty,
     (syscall) _1_write,
@@ -94,7 +100,10 @@ static syscall syscalls[]  = {
     (syscall) _10_put_pixel,
     (syscall) _11_get_screen_width,
     (syscall) _12_clean_buffer,
-    (syscall) _13_save_registers
+    (syscall) _13_save_registers,
+    (syscall) _14_set_font_size,
+    (syscall) _15_get_ticks
+
 };
 
 int64_t sysDispatcher(uint64_t syscallNumber, uint64_t r1, uint64_t r2, uint64_t r3, uint64_t r4, uint64_t r5){

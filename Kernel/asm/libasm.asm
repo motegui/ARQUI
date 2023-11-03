@@ -43,6 +43,11 @@ getSeconds:
     pop rbp
     ret
 
+_hlt:
+	sti
+	hlt
+	ret
+
 getMinutes:
     push rbp
     mov rbp,rsp

@@ -2,7 +2,7 @@
 #include <functions.h>
 #include <user_syscalls.h>
 #include <stdarg.h>
-
+ int charSize = 1;
 int strcmp(char * x, char * y){
     int i=0;
     while(x[i] && y[i]){
@@ -15,6 +15,26 @@ int strcmp(char * x, char * y){
         i++;
     }
     return x[i]-y[i];
+}
+void printChar(char c, int color){
+    char buff[2];
+    buff[0] = c;
+    buff[1] = 0;
+    sys_write(buff, color);
+}
+int isDigit(char c){
+    return c >= '0' && c<= '9';
+}
+ int myAtoi(char* str)
+ {
+    int res = 0;
+    for (int i = 0; str[i] != '\0'; ++i)
+      res = res * 10 + str[i] - '0';
+
+     return res;
+ }
+void hold(int delta){
+    sys_get_ticks(delta);
 }
 
 void scanf(char * buffer, int bufferSize){
@@ -132,7 +152,10 @@ void print(char * string){
 	sys_write(string, WHITE);
 
 }
-
+void setCharSize(int size) {
+    charSize = size;
+    sys_change_font_size(size);
+}
 
 //strings
 int strlen(char * string){

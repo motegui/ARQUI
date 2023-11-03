@@ -6,7 +6,6 @@
 #define WHITE 0xFFFFFF
 #define CORAL 0xFF7F50
 #define PINK 0xFF69B4
-#define INITIAL_FONT_SIZE 1
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 16
 void putLetter(int caracter, uint32_t x, uint32_t y, int color);
@@ -23,3 +22,4 @@ void printHexa(uint64_t value);
 int getWidth();
 void printError(char * string);
 void clearScreen();
+void set_default_fontSize(int size);

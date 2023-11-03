@@ -38,7 +38,7 @@ void sys_write_dec(int c, int color) {
 void sys_beep(int freq, int time){
     sys_int_80((uint64_t)8,(uint64_t)freq,(uint64_t)time,0,0,0);
 }
- 
+
 void sys_sleep(int ms) {
      sys_int_80((uint64_t)9, (uint64_t)ms, 0, 0, 0, 0);
 }
@@ -57,6 +57,12 @@ void sys_get_clean_buffer(){
 
 void sys_registers(uint64_t * registers, bool * isSaved){
    sys_int_80((uint64_t)13,(uint64_t)registers, (uint64_t) isSaved, 0, 0, 0);
+}
+void sys_change_font_size(int size) {
+    sys_int_80((uint64_t)14, (uint64_t)size, 0, 0, 0, 0);
+}
+void sys_get_ticks(int ticks) {
+    sys_int_80((uint64_t)15, (uint64_t)ticks, 0, 0, 0, 0);
 }
 
 
