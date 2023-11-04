@@ -112,6 +112,10 @@ restore_stack:
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX
 
+	add rsp, 8
+	mov [regs + 16*8], rsp ; Valore previo rsp.
+	sub rsp, 8
+
 	mov rdi, %1 ; passing parameter
 	call exceptionDispatcher
 
@@ -223,6 +227,10 @@ _irq01Handler:
 	mov [regs+12*8], r13
 	mov [regs+13*8], r14
 	mov [regs+14*8], r15
+
+	add rsp, 8
+	mov [regs + 16*8], rsp ; Valore previo rsp.
+	sub rsp, 8
 
 	mov rax, [rsp+14*8]
 	mov [regs], rax ;RAX

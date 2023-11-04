@@ -6,7 +6,7 @@
 #include <exceptionTester.h>
 #include <pong.h>
 #include <lettersize.h>
-#include <getInfoRegs.h>
+#include <getInforegs.h>
 
 #define BUFFER_SIZE 100
 
