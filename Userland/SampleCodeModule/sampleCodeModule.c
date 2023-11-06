@@ -5,6 +5,8 @@
 #include <functions.h>
 #include <exceptionTester.h>
 #include <pong.h>
+#include <snake.h>
+
 #include <lettersize.h>
 #include <getInforegs.h>
 
@@ -31,6 +33,9 @@ void help(){
 	enter();
 	sys_write("REGISTERS TEST", GREEN);
 	print(": to check the correct loading of registers ");
+	enter();
+	sys_write("SNAKE", GREEN);
+	print(": to play game");
 	enter();
 	sys_write("LETTER SIZE", GREEN);
 	print(": to change the size of the letters");
@@ -61,6 +66,9 @@ void command(char * entry){
 	}
 	else if(strcmp(buffer, "PONG")==0){
 		pong();
+	}
+	else if(strcmp(buffer, "SNAKE")==0){
+		snake();
 	}
 	else if(strcmp(buffer, "LETTER SIZE")==0){
 		lettersize();

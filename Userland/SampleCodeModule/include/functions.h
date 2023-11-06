@@ -28,3 +28,8 @@ int isDigit(char c);
 int myAtoi(char* str);
 void printChar(char c, int color);
 void hold(int delta);
+void srand(unsigned int seed);
+int rand(void);
+
+
+

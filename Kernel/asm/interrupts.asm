@@ -124,7 +124,7 @@ restore_stack:
 
 	call getStackBase ; Leaves result in RAX
 	mov [rsp+3*8], rax
-
+	
 ;--> STACK: RSPORIg : FLAGS : CS : RIP
 ;           0         1       2    3
 ;		  CALL BASE DEL STACK (CALL STACK BASE)

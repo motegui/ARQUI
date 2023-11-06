@@ -44,3 +44,9 @@ void addCero(char * buffer){
     addCero(str_seconds);
     sys_write(str_seconds, color);
 }
+
+int getSeconds(){
+    int seconds;
+    sys_get_seconds(&seconds);
+    return getFormat(seconds);
+}

@@ -2,7 +2,8 @@
 #include <functions.h>
 #include <user_syscalls.h>
 #include <stdarg.h>
- static int charSize = 1;
+static unsigned long int next = 1;
+static int charSize = 1;
 int strcmp(char * x, char * y){
     int i=0;
     while(x[i] && y[i]){
@@ -225,3 +226,13 @@ void fillHexa(int num, char* buf){ //to fill with 0 the hexa
 void enter(){
     sys_new_line();
 }
+
+void srand(unsigned int seed) {
+    next = seed;
+}
+
+int rand(void) {
+    next = next * 1103515245 + 12345;
+    return (unsigned int)(next/65536) % 32768;
+}
+
