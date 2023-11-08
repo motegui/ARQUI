@@ -10,14 +10,14 @@
 #define N 100
 #define ESC 27
 
-typedef struct 
+typedef struct
 {
     int x, y;            // Position (coordinates X,Y)
     int ModX, ModY;      // Modification
     char imagen;
 } snk;
 
-typedef struct 
+typedef struct
 {
     int x, y;
 } frt;
@@ -34,7 +34,7 @@ void loop(char campo[V][H], int tam);
 int input(char campo[V][H], int *tam, int *muerto);
 void update(char campo[V][H], int tam);
 void Intro_Data2(char campo[V][H], int tam);
-int checkOverlap(int x, int y, snk *snake, int tam); 
+int checkOverlap(int x, int y, snk *snake, int tam);
 
 int checkOverlap(int x, int y, snk *snake, int tam) {
     for (int i = 0; i < tam; i++) {
@@ -46,21 +46,21 @@ int checkOverlap(int x, int y, snk *snake, int tam) {
 }
 
 void init(int *tam, char campo[V][H]) {
-    // Snake's head inizialitation 
+    // Snake's head inizialitation
     snakebody[0].x = 32;
     snakebody[0].y = 10;
 
     // Snake size
     *tam = 4;
 
-    // Fruit coordinates 
+    // Fruit coordinates
     srand(getSeconds()); // Seed
     fruit.x = rand() % (H - 2) + 1;
-    fruit.y = rand() % (V - 2) + 1; 
+    fruit.y = rand() % (V - 2) + 1;
 
     for (int i = 0; i < *tam; i++) {
         snakebody[i].ModX = 1;
-        snakebody[i].ModY = 0; 
+        snakebody[i].ModY = 0;
     }
 
     Intro_Field(campo);
@@ -84,10 +84,10 @@ void Intro_Field(char campo[V][H]) {
 
 void Intro_Data(char campo[V][H], int tam) {
     int i;
-    
+
     for (i = 1; i < tam; i++) {
         snakebody[i].x =  snakebody[i - 1].x  - 1;
-        snakebody[i].y =  snakebody[i - 1].y; 
+        snakebody[i].y =  snakebody[i - 1].y;
         snakebody[i].imagen = 'X';
     }
     snakebody[0].imagen = 'O';
@@ -114,7 +114,7 @@ void loop(char campo[V][H], int tam) {
     do {
         sys_clear_screen();
         draw(campo);
-        
+
         if(input(campo, &tam, &muerto) == -1){
             return;
         }
@@ -124,6 +124,8 @@ void loop(char campo[V][H], int tam) {
 
     } while (muerto == 0);
     if(muerto == 1){
+        sys_beep(300,5);
+
         sys_write("You lose. Coming back to the main menu", RED);
         enter();
     }
@@ -132,7 +134,7 @@ void loop(char campo[V][H], int tam) {
 int input(char campo[V][H], int *tam, int *muerto) {
     char key;
 
-    // Check if the snake is dead 
+    // Check if the snake is dead
     if (snakebody[0].x == 0 || snakebody[0].x == H - 1 || snakebody[0].y == 0 || snakebody[0].y == V - 1) {
         *muerto = 1;
     }
@@ -142,7 +144,7 @@ int input(char campo[V][H], int *tam, int *muerto) {
         }
     }
 
-    // Check if the fruit has been eaten 
+    // Check if the fruit has been eaten
     if (snakebody[0].x == fruit.x && snakebody[0].y == fruit.y) {
         if (!fruitEaten) { // If the fruit has not been eaten
             *tam += 1;
@@ -171,18 +173,18 @@ int input(char campo[V][H], int *tam, int *muerto) {
         if (key == 'D' &&  snakebody[0].ModX != -1) {
             snakebody[0].ModX = 1;
             snakebody[0].ModY = 0;
-        } 
+        }
         if(key==ESC){
-
+                        sys_beep(300,5);
                         print("The game has finished. You pressed ESC ");
                         sys_sleep(1000);
                         sys_clear_screen();
                         return -1;
                     }
-                    
+
     }
     return 1;
-}   
+}
 
 void update(char campo[V][H], int tam) {
     Intro_Field(campo);
@@ -208,7 +210,7 @@ void Intro_Data2(char campo[V][H], int tam) {
     snakebody[0].y += snakebody[0].ModY;
 
     for (int i = 0; i < tam; i++) {
-        campo[snakebody[i].y][snakebody[i].x] = snakebody[i].imagen; 
+        campo[snakebody[i].y][snakebody[i].x] = snakebody[i].imagen;
     }
 
     campo[fruit.y][fruit.x] = 'a';
@@ -246,8 +248,8 @@ void snake() {
     enter();
 
     int tam;
-    char campo[V][H]; 
-    
+    char campo[V][H];
+
     while(1){
         key=getKey();
         if(key==ESC){
