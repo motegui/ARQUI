@@ -12,8 +12,8 @@
 
 typedef struct 
 {
-    int x, y;            // Posición (coordenadas)
-    int ModX, ModY;     // Modificación
+    int x, y;            // Position (coordinates X,Y)
+    int ModX, ModY;      // Modification
     char imagen;
 } snk;
 
@@ -22,39 +22,39 @@ typedef struct
     int x, y;
 } frt;
 
-snk snakebody[N]; // Vector de estructuras, para que el cuerpo de la serpiente crezca. 
+snk snakebody[N]; // Array of structs for the body of the snake
 frt fruit;
-int fruitEaten = 0; // Bandera para verificar si la fruta ha sido comida
+int fruitEaten = 0; // Flag to check if the fruit has been eaten
 
-void Intro_Campo(char campo[V][H]);
-void Intro_Datos(char campo[V][H], int tam);
+void Intro_Field(char campo[V][H]);
+void Intro_Data(char campo[V][H], int tam);
 void draw(char campo[V][H]);
-void inicio(int *tam, char campo[V][H]);
+void init(int *tam, char campo[V][H]);
 void loop(char campo[V][H], int tam);
 int input(char campo[V][H], int *tam, int *muerto);
 void update(char campo[V][H], int tam);
-void Intro_Datos2(char campo[V][H], int tam);
+void Intro_Data2(char campo[V][H], int tam);
 int checkOverlap(int x, int y, snk *snake, int tam); 
 
 int checkOverlap(int x, int y, snk *snake, int tam) {
     for (int i = 0; i < tam; i++) {
         if (snake[i].x == x && snake[i].y == y) {
-            return 1; // Existe superposición
+            return 1; // Overlap exists
         }
     }
-    return 0; // No hay superposición
+    return 0; // There is not overlap
 }
 
-void inicio(int *tam, char campo[V][H]) {
-    // Inicialización de la cabeza de la serpiente
+void init(int *tam, char campo[V][H]) {
+    // Snake's head inizialitation 
     snakebody[0].x = 32;
     snakebody[0].y = 10;
 
-    // Tamaño de la serpiente
+    // Snake size
     *tam = 4;
 
-    // Coordenadas de la fruta
-    srand(getSeconds()); // Semilla
+    // Fruit coordinates 
+    srand(getSeconds()); // Seed
     fruit.x = rand() % (H - 2) + 1;
     fruit.y = rand() % (V - 2) + 1; 
 
@@ -63,11 +63,11 @@ void inicio(int *tam, char campo[V][H]) {
         snakebody[i].ModY = 0; 
     }
 
-    Intro_Campo(campo);
-    Intro_Datos(campo, *tam);
+    Intro_Field(campo);
+    Intro_Data(campo, *tam);
 }
 
-void Intro_Campo(char campo[V][H]) {
+void Intro_Field(char campo[V][H]) {
     int i, j;
     for (i = 0; i < V; i++) {
         for (j = 0; j < H; j++) {
@@ -82,7 +82,7 @@ void Intro_Campo(char campo[V][H]) {
     }
 }
 
-void Intro_Datos(char campo[V][H], int tam) {
+void Intro_Data(char campo[V][H], int tam) {
     int i;
     
     for (i = 1; i < tam; i++) {
@@ -120,7 +120,7 @@ void loop(char campo[V][H], int tam) {
         }
 
         update(campo, tam);
-        sys_sleep(80); // Esto pausará el programa durante 100 milisegundos (0.1 segundos)
+        sys_sleep(80); // This will pause the program during 100 ms (0.1 seconds)
 
     } while (muerto == 0);
     if(muerto == 1){
@@ -132,7 +132,7 @@ void loop(char campo[V][H], int tam) {
 int input(char campo[V][H], int *tam, int *muerto) {
     char key;
 
-    // Verificar si estamos muertos
+    // Check if the snake is dead 
     if (snakebody[0].x == 0 || snakebody[0].x == H - 1 || snakebody[0].y == 0 || snakebody[0].y == V - 1) {
         *muerto = 1;
     }
@@ -142,15 +142,15 @@ int input(char campo[V][H], int *tam, int *muerto) {
         }
     }
 
-    // Verificar si hemos comido la fruta
+    // Check if the fruit has been eaten 
     if (snakebody[0].x == fruit.x && snakebody[0].y == fruit.y) {
-        if (!fruitEaten) { // Si la fruta no ha sido comida
+        if (!fruitEaten) { // If the fruit has not been eaten
             *tam += 1;
             snakebody[*tam - 1].imagen = 'X';
-            fruitEaten = 1; // Establecer la bandera en verdadero para indicar que se ha consumido la fruta
+            fruitEaten = 1; // Turn on the flag
         }
     } else {
-        fruitEaten = 0; // Restablecer la bandera si la fruta no ha sido consumida
+        fruitEaten = 0; // Reestablish the flag
     }
 
     if (*muerto == 0) {
@@ -185,8 +185,8 @@ int input(char campo[V][H], int *tam, int *muerto) {
 }   
 
 void update(char campo[V][H], int tam) {
-    Intro_Campo(campo);
-    Intro_Datos2(campo, tam);
+    Intro_Field(campo);
+    Intro_Data2(campo, tam);
 
     if (fruitEaten) {
         srand(getSeconds());
@@ -194,12 +194,12 @@ void update(char campo[V][H], int tam) {
             fruit.x = rand() % (H - 2) + 1;
             fruit.y = rand() % (V - 2) + 1;
         } while (checkOverlap(fruit.x, fruit.y, snakebody, tam));
-        fruitEaten = 0; // Restablecer la bandera de fruta comida a falso
+        fruitEaten = 0; // Restablish the flag
     }
 }
 
-void Intro_Datos2(char campo[V][H], int tam) {
-    // Crear el movimiento de los elementos del cuerpo
+void Intro_Data2(char campo[V][H], int tam) {
+    // Creates body movements of the snake body
     for (int i = tam - 1; i > 0; i--) {
         snakebody[i].x = snakebody[i - 1].x;
         snakebody[i].y = snakebody[i - 1].y;
@@ -258,7 +258,7 @@ void snake() {
             sys_write("You have chosen 1 player mode.  Loading game....",RED);
             enter();
             sys_sleep(800);
-            inicio(&tam,campo);
+            init(&tam,campo);
             loop(campo, tam);
             return;
         }
@@ -267,7 +267,7 @@ void snake() {
             enter();
             sys_sleep(800);
 
-            //inicio(&tam1, &tam2, campo);
+            //init(&tam1, &tam2, campo);
            // loop(campo, tam1, tam2);
             return;
         }
